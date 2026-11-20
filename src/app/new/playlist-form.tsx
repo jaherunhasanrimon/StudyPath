@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import Link from 'next/link';
 import { useTranslations, useLocale } from 'next-intl';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { PlaylistPreview, PlaylistItemPreview } from '@/modules/youtube/types';
 import { toBanglaDigits } from '@/modules/youtube/duration';
@@ -18,10 +18,12 @@ export function PlaylistForm() {
   const t = useTranslations();
   const locale = useLocale() as 'bn' | 'en';
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [inputUrl, setInputUrl] = useState(() => searchParams.get('url') ?? '');
   const [loading, setLoading] = useState(false);
+  const [savingPlan, setSavingPlan] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [preview, setPreview] = useState<PlaylistPreview | null>(null);
   const [showAllVideos, setShowAllVideos] = useState(false);
@@ -162,6 +164,45 @@ export function PlaylistForm() {
       ? preview.items
       : preview.items.slice(0, 5)
     : [];
+
+  const handleStartPlan = async () => {
+    if (!preview || !plan) return;
+    setSavingPlan(true);
+    setError(null);
+
+    try {
+      const res = await fetch('/api/plans', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: preview.title,
+          playlistId: preview.playlistId,
+          playlistTitle: preview.title,
+          channelTitle: preview.channelTitle,
+          prefs,
+          videos: schedulerVideos,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.status === 401) {
+        router.push(`/auth/sign-in?redirect=${encodeURIComponent('/new?url=' + inputUrl)}`);
+        return;
+      }
+
+      if (!res.ok) {
+        setError(data.error?.message || t('error.generic'));
+        return;
+      }
+
+      router.push('/today');
+    } catch {
+      setError(t('error.generic'));
+    } finally {
+      setSavingPlan(false);
+    }
+  };
 
   return (
     <main id="main-content" className="mx-auto max-w-[800px] px-4 py-8 space-y-8">
@@ -457,6 +498,8 @@ export function PlaylistForm() {
           prefs={prefs}
           onApplySuggestion={(updatedPrefs) => setPrefs(updatedPrefs)}
           onChangeSettings={() => setStep(2)}
+          onStartPlan={handleStartPlan}
+          savingPlan={savingPlan}
         />
       )}
     </main>

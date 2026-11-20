@@ -329,7 +329,7 @@ export async function getTodayItems(
   supabase: SupabaseClient,
   userId: string,
   targetDateIso?: string,
-  timezone = APP_CONFIG.DEFAULT_TIMEZONE
+  timezone: string = APP_CONFIG.DEFAULT_TIMEZONE
 ): Promise<TodayResponse> {
   // Determine reference time in target timezone
   const nowDt = DateTime.now().setZone(timezone);

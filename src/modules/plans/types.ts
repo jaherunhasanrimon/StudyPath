@@ -49,7 +49,7 @@ export interface PlanItemRow {
   end_at: string;
   duration_min: number;
   video_ids: string[];
-  part: { part: number; of: number; fromSec: number; toSec: number } | null;
+  part: { index: number; of: number; fromSec: number; toSec: number } | null;
   covers: number[];
   due_at: string | null;
   label: string;

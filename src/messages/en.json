@@ -95,7 +95,59 @@
     "banner": "You missed {n} classes. Let us fix the plan."
   },
   "today": {
-    "empty": "Nothing due today. Next class: {nextClass}."
+    "title": "Today",
+    "empty": "Nothing due today. Next class: {nextClass}.",
+    "startClass": "Start class",
+    "noPlan": "You do not have an active study plan.",
+    "createPlan": "Create a study plan",
+    "behind": "Behind by {count} classes",
+    "catchUp": "Catch up: {classLabel}",
+    "replanCta": "Adjust schedule",
+    "upcoming": "Next",
+    "completedAll": "All tasks for today are completed!"
+  },
+  "class": {
+    "openOnYouTube": "Open on YouTube",
+    "keyPoints": "Key points",
+    "notes": "Notes",
+    "quiz": "Quiz",
+    "quizComingSoon": "Quiz scheduled, coming soon (Phase 4)",
+    "notesPlaceholder": "Write your personal notes here...",
+    "saveNotes": "Save notes",
+    "notesSaved": "Notes saved",
+    "markDone": "Mark as done",
+    "markedDone": "Done",
+    "nextItem": "Next item",
+    "backToPathway": "Back to Pathway"
+  },
+  "plans": {
+    "title": "My Plans",
+    "active": "Active Plans",
+    "archived": "Archived Plans",
+    "version": "Version {v}",
+    "openPlan": "Open Plan",
+    "createNew": "Create New Plan",
+    "progress": "{percent}% complete",
+    "calendarFeed": "Calendar Feed (.ics)",
+    "copyLink": "Copy link",
+    "linkCopied": "Copied!"
+  },
+  "replan": {
+    "title": "Replan Schedule",
+    "subtitle": "Fallen behind? No problem, adjust your schedule to keep your pace.",
+    "strategy": "Choose strategy",
+    "shift": "Shift remaining classes",
+    "shiftDesc": "Moves remaining classes to next available study days, extending the finish date.",
+    "compress": "Finish on original date",
+    "compressDesc": "Increases daily study load to finish by the original deadline.",
+    "balanced": "Balanced adjustment",
+    "balancedDesc": "Slightly extends finish date while keeping daily load manageable.",
+    "diffTitle": "Schedule changes:",
+    "movedCount": "{count} classes moved to new dates",
+    "originalEnd": "Original finish date",
+    "newEnd": "New finish date",
+    "confirm": "Confirm New Schedule",
+    "canceling": "Cancel"
   },
   "error": {
     "import": "We could not read that playlist. Check that it is public or unlisted.",

@@ -13,6 +13,8 @@ interface Step4PlanProps {
   onApplySuggestion: (updatedPrefs: Prefs) => void;
   onMoveItem?: (index: number, direction: 'up' | 'down') => void;
   onChangeSettings: () => void;
+  onStartPlan?: () => void;
+  savingPlan?: boolean;
 }
 
 export function Step4Plan({
@@ -21,6 +23,8 @@ export function Step4Plan({
   onApplySuggestion,
   onMoveItem,
   onChangeSettings,
+  onStartPlan,
+  savingPlan = false,
 }: Step4PlanProps) {
   const t = useTranslations();
   const locale = useLocale() as 'bn' | 'en';
@@ -315,12 +319,13 @@ export function Step4Plan({
 
         <button
           type="button"
-          disabled
-          className="w-full sm:w-1/2 rounded-button bg-river/40 border border-river/30 px-6 py-3.5 text-sm font-medium text-paper cursor-not-allowed flex items-center justify-center gap-2"
+          onClick={onStartPlan}
+          disabled={savingPlan}
+          className="w-full sm:w-1/2 rounded-button bg-river px-6 py-3.5 text-sm font-semibold text-paper hover:bg-river/90 shadow-xs transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
           style={{ minHeight: '44px' }}
         >
           <span>🚀</span>
-          <span>{t('planPreview.startPlan')} (ফেজ ৩)</span>
+          <span>{savingPlan ? 'সংরক্ষণ হচ্ছে...' : t('planPreview.startPlan')}</span>
         </button>
       </div>
 
