@@ -137,17 +137,17 @@ Effort is in "agent sessions", where one session is a focused planning-mode conv
 
 **Tasks**
 
-- [ ] Migration 0003: `user_playlists`, `study_plans`, `plan_items`, `watch_progress`. RLS.
-- [ ] `POST /api/plans`, `GET /api/plans/:id`, `PATCH /api/plans/:id/items/:itemId` (complete, skip, move with revalidation). Enforce `FREE_ACTIVE_PLANS`.
-- [ ] Pathway screen `/plans/[id]` with calendar toggle.
-- [ ] Today screen `/today`: one primary action, then overdue, then the next three.
-- [ ] Class page `/class/[itemId]`: player frame (privacy-enhanced embed, resume position), channel credit, Open on YouTube, personal notes, Mark done, next item.
-- [ ] Progress saving (throttled to every 15 seconds and on pause or end). Completion at 90% or on Mark done.
-- [ ] `detect_missed` job and on-open detection.
-- [ ] Replan: preview diff, apply `shift`, `compress` or `balanced`, plan versions.
-- [ ] Calendar feed `GET /api/calendar/:planId.ics?token=`.
-- [ ] Empty, error and offline states. Placeholder for quizzes ("quiz scheduled, coming soon").
-- [ ] Playwright: the full core path in `bn` and `en`.
+- [x] Migration 0003: `user_playlists`, `study_plans`, `plan_items`, `watch_progress`. RLS.
+- [x] `POST /api/plans`, `GET /api/plans/:id`, `PATCH /api/plans/:id/items/:itemId` (complete, skip, move with revalidation). Enforce `FREE_ACTIVE_PLANS`.
+- [x] Pathway screen `/plans/[id]` with calendar toggle.
+- [x] Today screen `/today`: one primary action, then overdue, then the next three.
+- [x] Class page `/class/[itemId]`: player frame (privacy-enhanced embed, resume position), channel credit, Open on YouTube, personal notes, Mark done, next item.
+- [x] Progress saving (throttled to every 15 seconds and on pause or end). Completion at 90% or on Mark done.
+- [x] `detect_missed` job and on-open detection.
+- [x] Replan: preview diff, apply `shift`, `compress` or `balanced`, plan versions.
+- [x] Calendar feed `GET /api/calendar/:planId.ics?token=`.
+- [x] Empty, error and offline states. Placeholder for quizzes ("quiz scheduled, coming soon").
+- [x] Playwright: the full core path in `bn` and `en`.
 
 **Acceptance criteria**
 
@@ -333,6 +333,11 @@ Effort is in "agent sessions", where one session is a focused planning-mode conv
 | 2026-11-20 | Implemented pure synchronous 64-bit FNV-1a hash algorithm for canonical `inputHash` | Avoids asynchronous WebCrypto Promise overhead in pure domain modules, keeping `buildPlan` 100% synchronous, pure and portable between Node and browser | Phase 2 |
 | 2026-11-20 | Scaled candidate day generation to `Math.max(90, videos.length * 4)` in scheduler engine | Prevents excessive memory overhead and guarantees sub-50ms engine execution (39ms for 300 videos) while enabling fast property testing (9,000 runs in ~2s) | Phase 2 |
 | 2026-11-20 | Configured Playwright HTML reporter with `open: 'never'` | Prevents headless CLI test executions from hanging after test runs | Phase 2 |
+| 2026-11-20 | Added 15s throttle and 5s rewind buffer to YouTube player watch progress | Minimizes database write thrashing while ensuring cognitive continuity upon resuming video classes | Phase 3 |
+| 2026-11-20 | Designed Replan engine with immutable plan versioning ($N \to N+1$) | Preserves audit history of past completions, skips, and missed items without data loss | Phase 3 |
+| 2026-11-20 | Used HMAC-SHA256 signed calendar subscription URLs | Enables external calendar applications (Google Calendar, Apple Calendar) to subscribe securely without browser auth cookies | Phase 3 |
+| 2026-11-20 | Standardized client-side fetching in `(app)` pages and added `dishari-test-user` cookie check in layout | Allows seamless Playwright network route mocking without live Supabase credentials in CI while preserving 401 unauthenticated redirect checks | Phase 3 |
+| 2026-11-20 | Created consolidated `/api/class/[itemId]` endpoint | Reduces round-trips by retrieving item metadata, video watch progress, user notes, and next sequence item in a single request | Phase 3 |
 
 ## 5. Questions the agent must ask the founder (not guess)
 
