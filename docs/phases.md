@@ -342,6 +342,10 @@ Effort is in "agent sessions", where one session is a focused planning-mode conv
 | 2026-11-20 | 6-step assessment verification engine with `mathjs` CAS double-solve | Validates grounding, schema, unique answer keys, and numeric/algebraic equivalence before caching | Phase 4 |
 | 2026-11-20 | 3-tier progressive hint ladder and self-scoring rubric for assignments | Scaffolds learning step-by-step and guides self-assessment against official worked solutions | Phase 4 |
 | 2026-11-20 | Client-side math formula parsing supporting both `\(` and `$$` delimiters in `KaTeXMath` | Enables mixed Bangla/English mathematical typesetting without React 19 dispatcher overhead | Phase 4 |
+| 2026-11-21 | Separated client VAPID helper into zero-dependency client-utils.ts | Prevents Next.js Turbopack from bundling Node-only web-push dependency in browser context and breaking React dispatcher | Phase 5 |
+| 2026-11-21 | Luxon-based cross-midnight quiet-hours rescheduling (22:00–07:00 Asia/Dhaka) | Protects student sleep by deferring late-night reminders to 07:00 next morning | Phase 5 |
+| 2026-11-21 | Push-first with automatic Resend email fallback and 410 Gone subscription pruning | Guarantees reliable reminder delivery across devices while maintaining clean database state | Phase 5 |
+| 2026-11-21 | Pure statistics engine and optional streak counter strictly off by default | Provides encouraging, non-guilt progress metrics aligned with design.md calm routine direction | Phase 5 |
 
 ## 5. Questions the agent must ask the founder (not guess)
 

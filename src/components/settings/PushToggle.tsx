@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { urlBase64ToUint8Array } from '@/modules/notifications/push';
+import { urlBase64ToUint8Array } from '@/modules/notifications/client-utils';
 
 interface PushToggleProps {
   enabled: boolean;
@@ -76,8 +76,9 @@ export function PushToggle({ enabled, onChange, labels }: PushToggleProps) {
         }
         onChange(false);
       }
-    } catch (err: any) {
-      setPermissionError(err.message || 'পুশ নোটিফিকেশন সেটআপে সমস্যা হয়েছে');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'পুশ নোটিফিকেশন সেটআপে সমস্যা হয়েছে';
+      setPermissionError(msg);
     } finally {
       setLoading(false);
     }

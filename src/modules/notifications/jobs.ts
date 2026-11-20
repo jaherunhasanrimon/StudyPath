@@ -11,6 +11,7 @@ import {
   calculateWeeklyMinutes,
   calculateQuizScoreTrend,
   determinePlanHealth,
+  PlanItemProgress,
 } from '../learning/progress';
 
 export interface SendRemindersJobResult {
@@ -251,9 +252,9 @@ export async function weeklySummaryJob(
       .eq('user_id', userId)
       .not('submitted_at', 'is', null);
 
-    const planItemsMapped = (items || []).map((i) => ({
+    const planItemsMapped: PlanItemProgress[] = (items || []).map((i) => ({
       id: i.id,
-      status: i.status as any,
+      status: i.status as PlanItemProgress['status'],
       scheduledDate: i.scheduled_date,
       completedAt: i.completed_at,
     }));

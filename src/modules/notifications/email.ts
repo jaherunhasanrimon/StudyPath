@@ -119,8 +119,9 @@ export async function sendClassReminderEmail(
     }
 
     return { success: true, id: data?.id };
-  } catch (err: any) {
-    return { success: false, error: err?.message || 'Email delivery failed' };
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : 'Email delivery failed';
+    return { success: false, error: msg };
   }
 }
 
@@ -205,7 +206,8 @@ export async function sendWeeklySummaryEmail(
     }
 
     return { success: true, id: data?.id };
-  } catch (err: any) {
-    return { success: false, error: err?.message || 'Weekly summary delivery failed' };
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : 'Weekly summary delivery failed';
+    return { success: false, error: msg };
   }
 }

@@ -51,6 +51,7 @@ describe('Web Push Delivery (architecture.md §11)', () => {
   });
 
   it('detects 410 Gone / 404 as expired subscription', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const error: any = new Error('Subscription expired');
     error.statusCode = 410;
     vi.mocked(webpush.sendNotification).mockRejectedValueOnce(error);

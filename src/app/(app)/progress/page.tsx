@@ -28,7 +28,7 @@ interface ProgressData {
 }
 
 export default function ProgressPage() {
-  const t = useTranslations('dashboard');
+  const t = useTranslations();
   const [data, setData] = useState<ProgressData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -42,8 +42,9 @@ export default function ProgressPage() {
         }
         const json = await res.json();
         setData(json);
-      } catch (err: any) {
-        setError(err.message || 'Error loading dashboard');
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : 'Error loading dashboard';
+        setError(msg);
       } finally {
         setLoading(false);
       }
@@ -76,8 +77,8 @@ export default function ProgressPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">{t('title')}</h1>
-          <p className="text-sm text-muted-foreground">{t('subtitle')}</p>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">{t('dashboard.title')}</h1>
+          <p className="text-sm text-muted-foreground">{t('dashboard.subtitle')}</p>
         </div>
 
         {/* Optional streak badge (strictly off by default) */}
@@ -86,8 +87,8 @@ export default function ProgressPage() {
             <StreakBadge
               streak={data.streak}
               labels={{
-                streak: t('streak'),
-                streakDesc: t('streakDesc'),
+                streak: t('dashboard.streak'),
+                streakDesc: t('dashboard.streakDesc'),
               }}
             />
           </div>
@@ -98,9 +99,9 @@ export default function ProgressPage() {
       <PlanHealthBanner
         planHealth={data.planHealth}
         labels={{
-          onTrack: t('onTrack'),
-          behind: t('behind'),
-          replanNow: t('replanNow'),
+          onTrack: t('dashboard.onTrack'),
+          behind: t('dashboard.behind'),
+          replanNow: t('dashboard.replanNow'),
         }}
       />
 
@@ -109,37 +110,37 @@ export default function ProgressPage() {
         <AdherenceCard
           adherence={data.adherence}
           labels={{
-            title: t('adherence'),
-            description: t('adherenceDesc'),
-            classes: t('classes'),
+            title: t('dashboard.adherence'),
+            description: t('dashboard.adherenceDesc'),
+            classes: t('dashboard.classes'),
           }}
         />
 
         <MinutesCard
           weeklyMinutes={data.weeklyMinutes}
           labels={{
-            title: t('studyTime'),
-            thisWeek: t('thisWeek'),
-            lastWeek: t('lastWeek'),
-            minutes: t('minutes'),
+            title: t('dashboard.studyTime'),
+            thisWeek: t('dashboard.thisWeek'),
+            lastWeek: t('dashboard.lastWeek'),
+            minutes: t('dashboard.minutes'),
           }}
         />
 
         <QuizTrendCard
           quizTrend={data.quizTrend}
           labels={{
-            title: t('quizTrend'),
-            averageScore: t('quizAvg'),
+            title: t('dashboard.quizTrend'),
+            averageScore: t('dashboard.quizAvg'),
           }}
         />
 
         <WorkloadCard
           workload={data.upcomingWorkload}
           labels={{
-            title: t('workload'),
-            description: t('workloadDesc'),
-            classes: t('classes'),
-            minutes: t('minutes'),
+            title: t('dashboard.workload'),
+            description: t('dashboard.workloadDesc'),
+            classes: t('dashboard.classes'),
+            minutes: t('dashboard.minutes'),
           }}
         />
       </div>

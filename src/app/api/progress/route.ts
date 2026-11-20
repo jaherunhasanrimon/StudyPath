@@ -5,6 +5,7 @@
  */
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import { User } from '@supabase/supabase-js';
 import { createServerSupabaseClient } from '@/lib/supabase';
 import { WatchProgressSchema } from '@/modules/plans/schema';
 import { saveWatchProgress } from '@/modules/plans/service';
@@ -15,6 +16,8 @@ import {
   calculateUpcomingWorkload,
   determinePlanHealth,
   calculateStreak,
+  PlanItemProgress,
+  UpcomingItemRecord,
 } from '@/modules/learning/progress';
 
 export async function GET() {
@@ -28,7 +31,7 @@ export async function GET() {
     const cookieStore = await cookies();
     const testCookie = cookieStore.get('dishari-test-user');
     if (!user && testCookie?.value) {
-      user = { id: testCookie.value, email: 'test@example.com' } as any;
+      user = { id: testCookie.value, email: 'test@example.com' } as unknown as User;
     }
 
     if (!user) {
@@ -85,9 +88,9 @@ export async function GET() {
     const attempts = rawAttempts || [];
 
     // Map to domain interfaces
-    const planItemsMapped = items.map((i) => ({
+    const planItemsMapped: PlanItemProgress[] = items.map((i) => ({
       id: i.id,
-      status: i.status as any,
+      status: i.status as PlanItemProgress['status'],
       scheduledDate: i.scheduled_date,
       completedAt: i.completed_at,
     }));
@@ -103,10 +106,10 @@ export async function GET() {
       submittedAt: a.submitted_at,
     }));
 
-    const upcomingItemsMapped = items
+    const upcomingItemsMapped: UpcomingItemRecord[] = items
       .filter((i) => i.status === 'pending' && i.scheduled_date >= todayYmd)
       .map((i) => ({
-        type: (i.type || 'video') as any,
+        type: (i.type || 'video') as UpcomingItemRecord['type'],
         date: i.scheduled_date,
         durationSeconds: i.duration_sec || 1800,
       }));

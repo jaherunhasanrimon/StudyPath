@@ -4,6 +4,7 @@ import { POST as subscribePost } from '@/app/api/notifications/subscribe/route';
 import { POST as unsubscribePost, GET as unsubscribeGet } from '@/app/api/notifications/unsubscribe/route';
 import { GET as preferencesGet, PUT as preferencesPut } from '@/app/api/notifications/preferences/route';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let mockUser: any = { id: 'test-user-123', email: 'test@example.com' };
 
 vi.mock('@/lib/supabase', () => ({

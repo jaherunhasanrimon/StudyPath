@@ -7,7 +7,7 @@ import { QuietHoursPicker } from '@/components/settings/QuietHoursPicker';
 import { StreakToggle } from '@/components/settings/StreakToggle';
 
 export default function SettingsPage() {
-  const t = useTranslations('settings');
+  const t = useTranslations();
 
   const [pushEnabled, setPushEnabled] = useState(true);
   const [emailEnabled, setEmailEnabled] = useState(true);
@@ -79,12 +79,13 @@ export default function SettingsPage() {
       const res = await fetch('/api/notifications/test', { method: 'POST' });
       const json = await res.json();
       if (res.ok && json.success) {
-        setTestStatus(`${t('testSent')} (${json.channel})`);
+        setTestStatus(`${t('settings.testSent')} (${json.channel})`);
       } else {
         setTestStatus(json.details?.pushError || 'টেস্ট পাঠানো সম্ভব হয়নি');
       }
-    } catch (err: any) {
-      setTestStatus(err.message || 'টেস্ট পাঠানো সম্ভব হয়নি');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'টেস্ট পাঠানো সম্ভব হয়নি';
+      setTestStatus(msg);
     } finally {
       setTestSending(false);
     }
@@ -102,8 +103,8 @@ export default function SettingsPage() {
   return (
     <main className="mx-auto max-w-2xl px-4 py-8 space-y-6">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-foreground">{t('title')}</h1>
-        <p className="text-sm text-muted-foreground mt-0.5">{t('notifications')}</p>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">{t('settings.title')}</h1>
+        <p className="text-sm text-muted-foreground mt-0.5">{t('settings.notifications')}</p>
       </div>
 
       <div className="space-y-4">
@@ -112,16 +113,16 @@ export default function SettingsPage() {
           enabled={pushEnabled}
           onChange={setPushEnabled}
           labels={{
-            title: t('pushNotifications'),
-            description: t('pushDesc'),
+            title: t('settings.pushNotifications'),
+            description: t('settings.pushDesc'),
           }}
         />
 
         {/* Email Notification Toggle */}
         <div className="flex items-center justify-between gap-4 rounded-xl border border-border bg-card p-5 text-card-foreground shadow-xs">
           <div>
-            <h4 className="text-base font-semibold">{t('emailNotifications')}</h4>
-            <p className="text-xs text-muted-foreground mt-0.5">{t('emailDesc')}</p>
+            <h4 className="text-base font-semibold">{t('settings.emailNotifications')}</h4>
+            <p className="text-xs text-muted-foreground mt-0.5">{t('settings.emailDesc')}</p>
           </div>
 
           <button
@@ -143,7 +144,7 @@ export default function SettingsPage() {
 
         {/* Reminder Lead Time */}
         <div className="rounded-xl border border-border bg-card p-5 text-card-foreground shadow-xs">
-          <h4 className="text-base font-semibold">{t('leadTime')}</h4>
+          <h4 className="text-base font-semibold">{t('settings.leadTime')}</h4>
           <div className="mt-3 flex flex-wrap gap-2">
             {[15, 30, 60].map((m) => (
               <button
@@ -156,7 +157,7 @@ export default function SettingsPage() {
                     : 'border-border bg-background text-foreground hover:bg-muted'
                 }`}
               >
-                {t('minutesBefore', { m })}
+                {t('settings.minutesBefore', { m })}
               </button>
             ))}
           </div>
@@ -169,10 +170,10 @@ export default function SettingsPage() {
           onStartChange={setQuietHoursStart}
           onEndChange={setQuietHoursEnd}
           labels={{
-            title: t('quietHours'),
-            description: t('quietHoursDesc'),
-            from: t('from'),
-            to: t('to'),
+            title: t('settings.quietHours'),
+            description: t('settings.quietHoursDesc'),
+            from: t('settings.from'),
+            to: t('settings.to'),
           }}
         />
 
@@ -181,8 +182,8 @@ export default function SettingsPage() {
           enabled={streakEnabled}
           onChange={setStreakEnabled}
           labels={{
-            title: t('streakToggle'),
-            description: t('streakToggleDesc'),
+            title: t('settings.streakToggle'),
+            description: t('settings.streakToggleDesc'),
           }}
         />
 
@@ -194,7 +195,7 @@ export default function SettingsPage() {
             onClick={handleSendTest}
             className="inline-flex min-h-[44px] items-center justify-center rounded-lg border border-border bg-background px-4 py-2 text-xs font-semibold text-foreground hover:bg-muted transition-colors disabled:opacity-50"
           >
-            {testSending ? 'পাঠানো হচ্ছে...' : t('sendTest')}
+            {testSending ? 'পাঠানো হচ্ছে...' : t('settings.sendTest')}
           </button>
           {testStatus && (
             <p className="mt-2 text-xs text-primary font-medium">{testStatus}</p>
@@ -205,7 +206,7 @@ export default function SettingsPage() {
         <div className="pt-2 flex items-center justify-end gap-3">
           {saveSuccess && (
             <span className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
-              ✓ {t('saved')}
+              ✓ {t('settings.saved')}
             </span>
           )}
           <button
@@ -214,7 +215,7 @@ export default function SettingsPage() {
             onClick={handleSave}
             className="inline-flex min-h-[44px] items-center justify-center rounded-lg bg-primary px-6 py-2 text-sm font-semibold text-primary-foreground shadow-xs hover:bg-primary/90 transition-colors disabled:opacity-50"
           >
-            {saving ? 'সংরক্ষণ হচ্ছে...' : t('saveChanges')}
+            {saving ? 'সংরক্ষণ হচ্ছে...' : t('settings.saveChanges')}
           </button>
         </div>
       </div>

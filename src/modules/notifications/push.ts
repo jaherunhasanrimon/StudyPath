@@ -66,36 +66,20 @@ export async function sendPushNotification(
       success: true,
       statusCode: response.statusCode,
     };
-  } catch (err: any) {
-    const statusCode = err?.statusCode;
+  } catch (err: unknown) {
+    const statusCode = (err as { statusCode?: number })?.statusCode;
     // 404 Not Found or 410 Gone indicates the browser unsubscribed or subscription expired
     const expired = statusCode === 404 || statusCode === 410;
+    const errorMsg = err instanceof Error ? err.message : 'Unknown Web Push error';
 
     return {
       success: false,
       statusCode,
-      error: err?.message || 'Unknown Web Push error',
+      error: errorMsg,
       expired,
     };
   }
 }
 
-/**
- * Utility for client-side registration: converts urlBase64 string to Uint8Array for PushManager.
- */
-export function urlBase64ToUint8Array(base64String: string): Uint8Array {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
-
-  if (typeof window === 'undefined') {
-    return new Uint8Array(Buffer.from(base64, 'base64'));
-  }
-
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
-}
+import { urlBase64ToUint8Array } from './client-utils';
+export { urlBase64ToUint8Array };

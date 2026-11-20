@@ -26,11 +26,13 @@ export async function GET() {
       );
     }
 
-    let { data: pref, error } = await supabase
+    const { data: prefData } = await supabase
       .from('notification_preferences')
       .select('*')
       .eq('user_id', user.id)
       .maybeSingle();
+
+    let pref = prefData;
 
     if (!pref) {
       // Create defaults
@@ -80,7 +82,7 @@ export async function PUT(req: NextRequest) {
       );
     }
 
-    const updates: Record<string, any> = {
+    const updates: Record<string, unknown> = {
       user_id: user.id,
       updated_at: new Date().toISOString(),
     };

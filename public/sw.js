@@ -1,7 +1,6 @@
 // Dishari Service Worker - Push Notifications & Navigation (architecture.md §11)
-/* eslint-disable no-restricted-globals */
 
-self.addEventListener('install', (event) => {
+self.addEventListener('install', () => {
   // Activate immediately
   self.skipWaiting();
 });
@@ -21,7 +20,7 @@ self.addEventListener('push', (event) => {
   if (event.data) {
     try {
       data = Object.assign(data, event.data.json());
-    } catch (e) {
+    } catch {
       data.body = event.data.text() || data.body;
     }
   }

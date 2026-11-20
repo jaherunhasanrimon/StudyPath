@@ -2,12 +2,12 @@
  * POST /api/notifications/test — Dispatches an immediate test push or email notification.
  * Enables founder/students to verify notification delivery on real devices within 60s.
  */
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/supabase';
 import { sendPushNotification } from '@/modules/notifications/push';
 import { sendClassReminderEmail } from '@/modules/notifications/email';
 
-export async function POST(req: NextRequest) {
+export async function POST() {
   try {
     const supabase = await createServerSupabaseClient();
     const { data: { user } } = await supabase.auth.getUser();

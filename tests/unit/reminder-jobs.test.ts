@@ -10,6 +10,7 @@ describe('Reminder Worker Jobs (architecture.md §11)', () => {
       eq: vi.fn().mockResolvedValue({ error: null }),
     });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const mockSupabase: any = {
       from: vi.fn((table: string) => {
         if (table === 'reminders') {
