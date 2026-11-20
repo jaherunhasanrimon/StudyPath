@@ -47,6 +47,11 @@
   },
   "report": "Report a problem",
   "credit": "Video by {channel}",
+  "order": {
+    "sequential": "Order looks sequential",
+    "mayBeOff": "Order may be off",
+    "noNumbering": "Using playlist order"
+  },
   "feasible": {
     "ok": "Fits your plan",
     "tight": "Tight schedule",
