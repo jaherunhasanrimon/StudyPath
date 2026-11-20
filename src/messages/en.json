@@ -9,6 +9,21 @@
     "name": "Dishari",
     "tagline": "Paste a playlist. Get a schedule."
   },
+  "newPlan": {
+    "step1": "Step 1 of 4: Playlist",
+    "step2": "Step 2 of 4: Pace",
+    "step3": "Step 3 of 4: Checks",
+    "step4": "Step 4 of 4: Plan",
+    "subtitle": "Paste a YouTube playlist to create your personalized study schedule.",
+    "resolving": "Resolving playlist...",
+    "showAll": "Show all {count} videos",
+    "showLess": "Show fewer videos",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "continueToPace": "Continue to Pace (Phase 2)",
+    "classesCount": "{count} classes, {duration}",
+    "watchOnYouTube": "Watch on YouTube"
+  },
   "paste": {
     "label": "Paste a playlist link"
   },

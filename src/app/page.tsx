@@ -36,26 +36,28 @@ export default function HomePage() {
           </p>
         </div>
 
-        {/* Paste box — placeholder for Phase 1 */}
-        <div className="space-y-3">
+        {/* Paste box */}
+        <form action="/new" method="GET" className="space-y-3">
           <label htmlFor="playlist-url" className="block text-sm font-medium text-ink">
             {t('paste.label')}
           </label>
           <input
             id="playlist-url"
-            type="url"
+            name="url"
+            type="text"
             placeholder="youtube.com/playlist?list=..."
             className="block w-full rounded-input border border-border bg-surface px-4 py-3 text-ink placeholder:text-slate focus:border-river focus:ring-0"
             style={{ height: '56px' }}
-            disabled
+            required
           />
           <button
-            disabled
-            className="w-full rounded-button bg-river px-6 py-3 text-base font-medium text-paper transition-colors hover:bg-river/90 disabled:opacity-50"
+            type="submit"
+            className="w-full rounded-button bg-river px-6 py-3 text-base font-medium text-paper transition-colors hover:bg-river/90"
+            style={{ minHeight: '44px' }}
           >
             {t('cta.build')}
           </button>
-        </div>
+        </form>
 
         {/* Sign in link */}
         <div className="text-center">
