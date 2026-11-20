@@ -28,7 +28,7 @@ vi.mock('@/modules/ai/service', () => ({
     language: 'bn',
     difficulty: 'medium',
     status: 'published',
-    questions: questions.map((q: any) => ({
+    questions: questions.map((q: Record<string, unknown>) => ({
       id: q.id,
       stem: q.stem,
       options: q.options || [],

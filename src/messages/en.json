@@ -219,6 +219,23 @@
   "minor": {
     "blocked": "This feature requires guardian consent. Please ask a guardian to approve your account."
   },
+  "assessment": {
+    "quiz": "Quiz",
+    "assignment": "Assignment",
+    "review": "Review",
+    "question": "Question",
+    "hint": "Hint",
+    "revealHint": "Reveal next hint",
+    "workedSolution": "Worked Solution",
+    "rubricFormula": "I identified the correct formula or principle",
+    "rubricSteps": "Intermediate steps and calculations are correct",
+    "rubricFinal": "Final value and unit are correct",
+    "selfEvaluation": "Self-Evaluation",
+    "submitAssignment": "Submit Assignment",
+    "verified": "AI-generated, verified",
+    "unverified": "AI-generated",
+    "reportIssue": "Report an issue"
+  },
   "footer": {
     "disclaimer": "No ads. We embed YouTube videos and never copy them."
   }

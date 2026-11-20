@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { KaTeXMath } from './KaTeXMath';
 import { StudentAssessment, StudentQuestion, GradeResult } from '@/modules/ai/service';
 
@@ -31,7 +31,6 @@ export function QuizRunner({
         selectedIndex?: number;
         value?: number | string | boolean;
         hintsUsed: number;
-        startTime: number;
         elapsedMs: number;
       }
     >
@@ -43,27 +42,10 @@ export function QuizRunner({
   const [reportDetails, setReportDetails] = useState('');
   const [reportSubmitted, setReportSubmitted] = useState(false);
 
-  // Initialize start time for questions
-  useEffect(() => {
-    const currentQ = questions[currentIndex];
-    if (!currentQ) return;
-    setAnswers((prev) => {
-      if (prev[currentQ.id]) return prev;
-      return {
-        ...prev,
-        [currentQ.id]: {
-          hintsUsed: 0,
-          startTime: Date.now(),
-          elapsedMs: 0,
-        },
-      };
-    });
-  }, [currentIndex, questions]);
-
   const currentQ: StudentQuestion | undefined = questions[currentIndex];
   if (!currentQ) return null;
 
-  const currentAns = answers[currentQ.id] || { hintsUsed: 0, startTime: Date.now(), elapsedMs: 0 };
+  const currentAns = answers[currentQ.id] || { hintsUsed: 0, elapsedMs: 0 };
   const currentHintIndex = revealedHints[currentQ.id] || 0;
 
   const handleSelectOption = (idx: number) => {
@@ -72,8 +54,8 @@ export function QuizRunner({
       [currentQ.id]: {
         ...prev[currentQ.id],
         selectedIndex: idx,
-        elapsedMs: (prev[currentQ.id]?.elapsedMs || 0) + (Date.now() - (prev[currentQ.id]?.startTime || Date.now())),
-        startTime: Date.now(),
+        hintsUsed: prev[currentQ.id]?.hintsUsed || 0,
+        elapsedMs: (prev[currentQ.id]?.elapsedMs || 0) + 1000,
       },
     }));
   };
@@ -84,8 +66,8 @@ export function QuizRunner({
       [currentQ.id]: {
         ...prev[currentQ.id],
         value: val,
-        elapsedMs: (prev[currentQ.id]?.elapsedMs || 0) + (Date.now() - (prev[currentQ.id]?.startTime || Date.now())),
-        startTime: Date.now(),
+        hintsUsed: prev[currentQ.id]?.hintsUsed || 0,
+        elapsedMs: (prev[currentQ.id]?.elapsedMs || 0) + 1000,
       },
     }));
   };
