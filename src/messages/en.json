@@ -35,7 +35,10 @@
   "error": {
     "import": "We could not read that playlist. Check that it is public or unlisted.",
     "generic": "Something went wrong. Please try again.",
-    "unauthorized": "Please sign in to continue."
+    "unauthorized": "Please sign in to continue.",
+    "invalidUrl": "Please enter a valid YouTube playlist link or ID.",
+    "mixNotSupported": "Auto-generated mix playlists (starting with RD) are not supported. Please use a regular playlist.",
+    "emptyInput": "Please enter a playlist link or ID."
   },
   "offline": "You are offline. Your plan is still here.",
   "ai": {
