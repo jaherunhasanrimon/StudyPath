@@ -52,6 +52,18 @@
     "mayBeOff": "Order may be off",
     "noNumbering": "Using playlist order"
   },
+  "warning": {
+    "unavailable": "Video is unavailable (private or deleted)",
+    "unavailablePlaylist": "{count} videos are unavailable (private or deleted)",
+    "live": "Live stream or premiere",
+    "livePlaylist": "{count} live streams or 0-duration videos",
+    "notEmbeddable": "Not embeddable (must watch on YouTube)",
+    "notEmbeddablePlaylist": "{count} videos cannot be embedded",
+    "duplicate": "Duplicate video",
+    "duplicatePlaylist": "{count} duplicate videos found",
+    "shortVideosGroup": "Contains several short videos (< 5 min)",
+    "overCap": "Playlist exceeds the 300 video cap"
+  },
   "feasible": {
     "ok": "Fits your plan",
     "tight": "Tight schedule",
