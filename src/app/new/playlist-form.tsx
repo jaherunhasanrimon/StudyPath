@@ -140,7 +140,7 @@ export function PlaylistForm() {
     return preview.items.map((it, idx) => ({
       id: it.videoId,
       title: it.title,
-      durationSec: it.durationSec,
+      durationSec: it.durationSec ?? (it as unknown as { durationSeconds?: number }).durationSeconds ?? 0,
       position: idx,
       available: !it.isUnavailable,
       embeddable: it.embeddable,
