@@ -327,7 +327,9 @@ Effort is in "agent sessions", where one session is a focused planning-mode conv
 
 | Date | Decision | Reason | Phase |
 |---|---|---|---|
-| | | | |
+| 2026-11-20 | Replaced PostgreSQL stored generated column `is_minor` in `0001_foundation.sql` with dynamic computed column `public.is_minor(profiles)` and TypeScript helper `isMinor()` | PostgreSQL does not allow non-immutable expressions (such as `NOW()`) in stored generated columns | Phase 0 |
+| 2026-11-20 | Prioritized video-level prefixes (`class\|part\|episode\|lecture\|পর্ব\|ক্লাস\|লেকচার\|#`) over chapter-level prefixes (`chapter\|ch\|অধ্যায়`) in `extractNumberFromTitle` | Educational video titles contain chapter indicators alongside lecture numbers (e.g., "Physics Chapter 2 Part 05"); matching chapter first caused false sequence detections | Phase 1 |
+| 2026-11-20 | Enforced Next.js `<Suspense>` boundary around `/new` client form component reading `useSearchParams()` | Required by Next.js App Router to avoid de-opting the whole page from static optimization during build | Phase 1 |
 
 ## 5. Questions the agent must ask the founder (not guess)
 
