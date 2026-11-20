@@ -24,7 +24,14 @@ export default function HomePage() {
 
         {/* Hero */}
         <div className="space-y-2">
-          <p className="font-display text-[40px] leading-[48px] font-semibold text-ink">
+          <p
+            className="text-ink font-semibold"
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '40px',
+              lineHeight: '48px',
+            }}
+          >
             {t('app.tagline')}
           </p>
         </div>
@@ -38,7 +45,7 @@ export default function HomePage() {
             id="playlist-url"
             type="url"
             placeholder="youtube.com/playlist?list=..."
-            className="w-full rounded-input border border-border bg-surface px-4 py-3 text-ink placeholder:text-slate focus:border-river focus:ring-0"
+            className="block w-full rounded-input border border-border bg-surface px-4 py-3 text-ink placeholder:text-slate focus:border-river focus:ring-0"
             style={{ height: '56px' }}
             disabled
           />
