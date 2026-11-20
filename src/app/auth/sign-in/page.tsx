@@ -3,7 +3,8 @@ import { useTranslations } from 'next-intl';
 /**
  * Sign-in page.
  * Phase 0: UI shell for email magic link + Google sign-in.
- * Actual auth requires Supabase credentials.
+ * Auth actions are wired to Supabase but the actual flow
+ * requires the migration to be applied to the database.
  */
 export default function SignInPage() {
   const t = useTranslations();
@@ -15,20 +16,28 @@ export default function SignInPage() {
     >
       <div className="w-full max-w-sm space-y-8">
         <div className="space-y-2 text-center">
-          <h1 className="font-display text-[34px] leading-[42px] font-semibold text-ink">
+          <h1
+            className="text-ink font-semibold"
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: '34px',
+              lineHeight: '42px',
+            }}
+          >
             {t('auth.signInTitle')}
           </h1>
           <p className="text-sm text-slate">{t('auth.signInDescription')}</p>
         </div>
 
         {/* Email magic link */}
-        <form className="space-y-4">
+        <form action="/api/auth/sign-in" method="POST" className="space-y-4">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-ink mb-1">
               {t('auth.emailLabel')}
             </label>
             <input
               id="email"
+              name="email"
               type="email"
               placeholder={t('auth.emailPlaceholder')}
               className="w-full rounded-input border border-border bg-surface px-4 py-3 text-ink placeholder:text-slate focus:border-river focus:ring-0"
@@ -51,8 +60,8 @@ export default function SignInPage() {
         </div>
 
         {/* Google sign-in */}
-        <button
-          type="button"
+        <a
+          href="/api/auth/google"
           className="flex w-full items-center justify-center gap-3 rounded-button border border-border px-6 py-3 text-base font-medium text-ink transition-colors hover:bg-mist"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
@@ -74,7 +83,7 @@ export default function SignInPage() {
             />
           </svg>
           {t('cta.continueWithGoogle')}
-        </button>
+        </a>
 
         <p className="text-center text-xs text-slate">{t('auth.agreeTerms')}</p>
       </div>
