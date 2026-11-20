@@ -236,6 +236,48 @@
     "unverified": "AI-generated",
     "reportIssue": "Report an issue"
   },
+  "dashboard": {
+    "title": "Your Study Progress",
+    "subtitle": "Routine adherence and study metrics",
+    "adherence": "Routine Adherence",
+    "adherenceDesc": "Percentage of scheduled classes completed on time",
+    "studyTime": "Study Time",
+    "thisWeek": "This Week",
+    "lastWeek": "Last Week",
+    "minutes": "mins",
+    "quizTrend": "Quiz Scores & Trends",
+    "quizAvg": "Average Score",
+    "workload": "Upcoming 7-Day Workload",
+    "workloadDesc": "Classes and quizzes scheduled for the next 7 days",
+    "classes": "classes",
+    "quizzes": "quizzes",
+    "assignments": "assignments",
+    "onTrack": "You are on track",
+    "behind": "Classes to catch up — feel free to replan whenever you are ready",
+    "replanNow": "Replan Schedule",
+    "streak": "Day Study Streak",
+    "streakDesc": "Consecutive active study days"
+  },
+  "settings": {
+    "title": "Settings & Notifications",
+    "notifications": "Reminders & Notifications",
+    "pushNotifications": "Web Push Notifications",
+    "pushDesc": "Receive class reminders directly in your browser",
+    "emailNotifications": "Email Reminders",
+    "emailDesc": "Receive study reminders via email fallback",
+    "leadTime": "Reminder Lead Time",
+    "minutesBefore": "{m} minutes before",
+    "quietHours": "Quiet Hours",
+    "quietHoursDesc": "No notifications will be delivered during this window",
+    "from": "From",
+    "to": "To",
+    "streakToggle": "Study Streak Counter",
+    "streakToggleDesc": "Show consecutive active days on dashboard (optional)",
+    "sendTest": "Send Test Reminder",
+    "testSent": "Test reminder sent!",
+    "saveChanges": "Save Preferences",
+    "saved": "Saved successfully"
+  },
   "footer": {
     "disclaimer": "No ads. We embed YouTube videos and never copy them."
   }
