@@ -7,12 +7,16 @@ import { createServerSupabaseClient } from '@/lib/supabase';
 
 export async function GET(request: NextRequest) {
   const supabase = await createServerSupabaseClient();
-  const origin = request.headers.get('origin') ?? 'http://localhost:3000';
+  const origin = request.nextUrl.origin;
+  const next =
+    request.nextUrl.searchParams.get('next') ||
+    request.nextUrl.searchParams.get('redirect') ||
+    '/today';
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${origin}/auth/callback`,
+      redirectTo: `${origin}/auth/callback?next=${encodeURIComponent(next)}`,
     },
   });
 
