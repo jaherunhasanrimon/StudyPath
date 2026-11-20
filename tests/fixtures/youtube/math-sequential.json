@@ -1,0 +1,90 @@
+{
+  "playlistId": "PLmath1234567890",
+  "title": "HSC Higher Math 1st Paper - Chapter 1 (ম্যাট্রিক্স ও নির্ণায়ক)",
+  "channelTitle": "Onnorokom Pathshala",
+  "channelId": "UCOnnorokom123",
+  "itemCount": 8,
+  "totalDurationSeconds": 10800,
+  "totalDurationFormatted": "3 ঘণ্টা",
+  "items": [
+    {
+      "videoId": "math_v01",
+      "title": "Class 01 - Matrix Basics",
+      "position": 0,
+      "durationSeconds": 1200,
+      "durationFormatted": "20:00",
+      "isUnavailable": false,
+      "embeddable": true
+    },
+    {
+      "videoId": "math_v02",
+      "title": "Class 02 - Matrix Types",
+      "position": 1,
+      "durationSeconds": 1350,
+      "durationFormatted": "22:30",
+      "isUnavailable": false,
+      "embeddable": true
+    },
+    {
+      "videoId": "math_v03",
+      "title": "Class 03 - Matrix Operations",
+      "position": 2,
+      "durationSeconds": 1500,
+      "durationFormatted": "25:00",
+      "isUnavailable": false,
+      "embeddable": true
+    },
+    {
+      "videoId": "math_v04",
+      "title": "Class 04 - Matrix Multiplication",
+      "position": 3,
+      "durationSeconds": 1400,
+      "durationFormatted": "23:20",
+      "isUnavailable": false,
+      "embeddable": true
+    },
+    {
+      "videoId": "math_v05",
+      "title": "Class 05 - Determinant Basics",
+      "position": 4,
+      "durationSeconds": 1100,
+      "durationFormatted": "18:20",
+      "isUnavailable": false,
+      "embeddable": true
+    },
+    {
+      "videoId": "math_v06",
+      "title": "Class 06 - Determinant Properties",
+      "position": 5,
+      "durationSeconds": 1650,
+      "durationFormatted": "27:30",
+      "isUnavailable": false,
+      "embeddable": true
+    },
+    {
+      "videoId": "math_v07",
+      "title": "Class 07 - Inverse Matrix",
+      "position": 6,
+      "durationSeconds": 1300,
+      "durationFormatted": "21:40",
+      "isUnavailable": false,
+      "embeddable": true
+    },
+    {
+      "videoId": "math_v08",
+      "title": "Class 08 - Cramer's Rule",
+      "position": 7,
+      "durationSeconds": 1300,
+      "durationFormatted": "21:40",
+      "isUnavailable": false,
+      "embeddable": true
+    }
+  ],
+  "order": {
+    "isSequential": true,
+    "detectedNumbers": [1, 2, 3, 4, 5, 6, 7, 8],
+    "reason": "sequential",
+    "messageKey": "order.sequential"
+  },
+  "warnings": []
+}

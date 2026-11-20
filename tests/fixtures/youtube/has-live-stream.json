@@ -1,0 +1,42 @@
+{
+  "playlistId": "PLlive1234567890",
+  "title": "Chemistry 1st Paper - Periodic Table (পর্যায় সারণি)",
+  "channelTitle": "Buetians Classroom",
+  "channelId": "UCBuet12345",
+  "itemCount": 2,
+  "totalDurationSeconds": 1800,
+  "totalDurationFormatted": "30 মিনিট",
+  "items": [
+    {
+      "videoId": "chem_v01",
+      "title": "Live Session 1: Modern Periodic Table Q&A",
+      "position": 0,
+      "durationSeconds": 0,
+      "durationFormatted": "0:00",
+      "isUnavailable": false,
+      "embeddable": true
+    },
+    {
+      "videoId": "chem_v02",
+      "title": "Class 2: Periodic Properties",
+      "position": 1,
+      "durationSeconds": 1800,
+      "durationFormatted": "30:00",
+      "isUnavailable": false,
+      "embeddable": true
+    }
+  ],
+  "order": {
+    "isSequential": true,
+    "detectedNumbers": [1, 2],
+    "reason": "sequential",
+    "messageKey": "order.sequential"
+  },
+  "warnings": [
+    {
+      "type": "live",
+      "count": 1,
+      "messageKey": "warning.livePlaylist"
+    }
+  ]
+}
