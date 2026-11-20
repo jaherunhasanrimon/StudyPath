@@ -212,21 +212,18 @@ describe('Scheduler Invariants 1–9 (fast-check property tests)', () => {
   // Invariant 6: If status is 'ok' and a deadline exists, lastDate <= deadline
   it('Invariant 6: If status is ok and a deadline exists, lastDate <= deadline (1,000 runs)', () => {
     fc.assert(
-      fc.property(
-        videosListArbitrary,
-        () => {
-          // Set generous deadline
-          const deadlineDate = '2027-06-30';
-          const prefs = createArbitraryPrefs({
-            pacing: { mode: 'deadline', deadline: deadlineDate },
-          });
+      fc.property(videosListArbitrary, (videos) => {
+        // Set generous deadline
+        const deadlineDate = '2027-06-30';
+        const prefs = createArbitraryPrefs({
+          pacing: { mode: 'deadline', deadline: deadlineDate },
+        });
 
-          const plan = buildPlan(videos, prefs);
-          if (plan.feasibility.status === 'ok') {
-            expect(plan.summary.lastDate <= deadlineDate).toBe(true);
-          }
+        const plan = buildPlan(videos, prefs);
+        if (plan.feasibility.status === 'ok') {
+          expect(plan.summary.lastDate <= deadlineDate).toBe(true);
         }
-      ),
+      }),
       { numRuns: 1000 }
     );
   }, 30000);
