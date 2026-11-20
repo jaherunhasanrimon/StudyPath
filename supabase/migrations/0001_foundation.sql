@@ -1,6 +1,6 @@
 -- Migration 0001: Foundation tables
 -- Phase 0 — profiles, usage_counters, jobs, ai_calls, events, audit_logs
--- RLS on with default deny and explicit policies.
+-- RLS enabled with default deny and explicit policies.
 
 -- Enable RLS on all tables by default.
 -- Each table gets: ALTER TABLE ... ENABLE ROW LEVEL SECURITY;
@@ -15,18 +15,25 @@ CREATE TABLE public.profiles (
   locale TEXT NOT NULL DEFAULT 'bn' CHECK (locale IN ('bn', 'en')),
   timezone TEXT NOT NULL DEFAULT 'Asia/Dhaka',
   birth_year INTEGER,
-  is_minor BOOLEAN GENERATED ALWAYS AS (
-    CASE
-      WHEN birth_year IS NULL THEN NULL
-      WHEN (EXTRACT(YEAR FROM NOW()) - birth_year) < 18 THEN TRUE
-      ELSE FALSE
-    END
-  ) STORED,
   role TEXT NOT NULL DEFAULT 'student' CHECK (role IN ('student', 'guardian', 'teacher', 'admin')),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+
+-- Computed column / dynamic helper for minor status (evaluated at query time)
+-- PostgREST exposes this as a virtual/computed column on profiles.
+CREATE OR REPLACE FUNCTION public.is_minor(profile_row public.profiles)
+RETURNS BOOLEAN
+LANGUAGE sql
+STABLE
+AS $$
+  SELECT CASE
+    WHEN profile_row.birth_year IS NULL THEN NULL
+    WHEN (EXTRACT(YEAR FROM (CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Dhaka')) - profile_row.birth_year) < 18 THEN TRUE
+    ELSE FALSE
+  END;
+$$;
 
 -- Users can read and update their own profile
 CREATE POLICY "Users can read own profile"
@@ -49,13 +56,19 @@ BEGIN
   VALUES (
     NEW.id,
     COALESCE(NEW.raw_user_meta_data ->> 'full_name', NEW.raw_user_meta_data ->> 'name', ''),
-    COALESCE(NEW.raw_user_meta_data ->> 'locale', 'bn')
-  );
+    CASE
+      WHEN (NEW.raw_user_meta_data ->> 'locale') ILIKE 'en%' THEN 'en'
+      ELSE 'bn'
+    END
+  )
+  ON CONFLICT (id) DO NOTHING;
   RETURN NEW;
 END;
 $$;
 
-CREATE OR REPLACE TRIGGER on_auth_user_created
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+
+CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW
   EXECUTE FUNCTION public.handle_new_user();
@@ -111,8 +124,8 @@ ALTER TABLE public.jobs ENABLE ROW LEVEL SECURITY;
 -----------------------------------------------------------
 CREATE TABLE public.ai_calls (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  job_id UUID REFERENCES public.jobs(id),
-  user_id UUID REFERENCES auth.users(id),
+  job_id UUID REFERENCES public.jobs(id) ON DELETE SET NULL,
+  user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
   task TEXT NOT NULL,
   model TEXT NOT NULL,
   prompt_version TEXT NOT NULL,
@@ -153,7 +166,7 @@ CREATE POLICY "Authenticated users can insert events"
 -----------------------------------------------------------
 CREATE TABLE public.audit_logs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  actor_id UUID REFERENCES auth.users(id),
+  actor_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
   action TEXT NOT NULL,
   target TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()

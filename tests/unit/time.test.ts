@@ -2,7 +2,15 @@
  * Unit tests for lib/time.ts — Luxon date/time helpers.
  */
 import { describe, it, expect } from 'vitest';
-import { now, fromISO, formatDate, formatTime, getWeekdays, DEFAULT_TIMEZONE } from '@/lib/time';
+import {
+  now,
+  fromISO,
+  formatDate,
+  formatTime,
+  getWeekdays,
+  isMinor,
+  DEFAULT_TIMEZONE,
+} from '@/lib/time';
 
 describe('time helpers', () => {
   it('defaults to Asia/Dhaka timezone', () => {
@@ -39,5 +47,26 @@ describe('time helpers', () => {
     const days = getWeekdays('en');
     expect(days[0]).toBe('Saturday');
     expect(days.length).toBe(7);
+  });
+
+  describe('isMinor', () => {
+    it('returns null when birth_year is null or undefined', () => {
+      expect(isMinor(null)).toBeNull();
+      expect(isMinor(undefined)).toBeNull();
+    });
+
+    it('returns true when age is under 18', () => {
+      // Reference year 2026: born 2009 -> age 17 (< 18)
+      expect(isMinor(2009, 2026)).toBe(true);
+      // Reference year 2026: born 2011 -> age 15 (< 18)
+      expect(isMinor(2011, 2026)).toBe(true);
+    });
+
+    it('returns false when age is 18 or older', () => {
+      // Reference year 2026: born 2008 -> age 18 (adult)
+      expect(isMinor(2008, 2026)).toBe(false);
+      // Reference year 2026: born 2000 -> age 26 (adult)
+      expect(isMinor(2000, 2026)).toBe(false);
+    });
   });
 });

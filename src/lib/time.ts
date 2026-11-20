@@ -64,3 +64,20 @@ export function getWeekdays(
   const offset = startDay - 1;
   return [...days.slice(offset), ...days.slice(0, offset)];
 }
+
+/**
+ * Calculate whether a user is a minor (< 18 years old) based on their birth year.
+ * Per docs/phases.md: dynamically computed from birth_year.
+ *
+ * @param birthYear - The user's birth year, or null/undefined if not specified.
+ * @param referenceYear - Optional reference year (defaults to the current year in Asia/Dhaka).
+ * @returns true if minor (< 18), false if adult (>= 18), null if birthYear is null or undefined.
+ */
+export function isMinor(
+  birthYear?: number | null,
+  referenceYear?: number
+): boolean | null {
+  if (birthYear == null) return null;
+  const currentYear = referenceYear ?? now().year;
+  return currentYear - birthYear < 18;
+}

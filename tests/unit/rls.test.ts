@@ -62,4 +62,13 @@ describe('RLS enabled on all tables', () => {
     expect(sql).toContain('handle_new_user');
     expect(sql).toContain('AFTER INSERT ON auth.users');
   });
+
+  it('profiles has dynamic is_minor computed column function', () => {
+    const migrationPath = join(process.cwd(), 'supabase/migrations/0001_foundation.sql');
+    const sql = readFileSync(migrationPath, 'utf-8');
+
+    expect(sql).toContain('FUNCTION public.is_minor(profile_row public.profiles)');
+    // Ensures no non-immutable generated stored column exists in the table definition
+    expect(sql).not.toContain('is_minor BOOLEAN GENERATED ALWAYS AS');
+  });
 });
