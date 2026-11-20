@@ -330,6 +330,9 @@ Effort is in "agent sessions", where one session is a focused planning-mode conv
 | 2026-11-20 | Replaced PostgreSQL stored generated column `is_minor` in `0001_foundation.sql` with dynamic computed column `public.is_minor(profiles)` and TypeScript helper `isMinor()` | PostgreSQL does not allow non-immutable expressions (such as `NOW()`) in stored generated columns | Phase 0 |
 | 2026-11-20 | Prioritized video-level prefixes (`class\|part\|episode\|lecture\|পর্ব\|ক্লাস\|লেকচার\|#`) over chapter-level prefixes (`chapter\|ch\|অধ্যায়`) in `extractNumberFromTitle` | Educational video titles contain chapter indicators alongside lecture numbers (e.g., "Physics Chapter 2 Part 05"); matching chapter first caused false sequence detections | Phase 1 |
 | 2026-11-20 | Enforced Next.js `<Suspense>` boundary around `/new` client form component reading `useSearchParams()` | Required by Next.js App Router to avoid de-opting the whole page from static optimization during build | Phase 1 |
+| 2026-11-20 | Implemented pure synchronous 64-bit FNV-1a hash algorithm for canonical `inputHash` | Avoids asynchronous WebCrypto Promise overhead in pure domain modules, keeping `buildPlan` 100% synchronous, pure and portable between Node and browser | Phase 2 |
+| 2026-11-20 | Scaled candidate day generation to `Math.max(90, videos.length * 4)` in scheduler engine | Prevents excessive memory overhead and guarantees sub-50ms engine execution (39ms for 300 videos) while enabling fast property testing (9,000 runs in ~2s) | Phase 2 |
+| 2026-11-20 | Configured Playwright HTML reporter with `open: 'never'` | Prevents headless CLI test executions from hanging after test runs | Phase 2 |
 
 ## 5. Questions the agent must ask the founder (not guess)
 
