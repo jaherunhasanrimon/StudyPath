@@ -1,0 +1,84 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+@theme inline {
+  /* Colours — mapped from CSS variables */
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-slate: var(--slate);
+  --color-border: var(--border);
+  --color-mist: var(--mist);
+  --color-river: var(--river);
+  --color-marigold: var(--marigold);
+  --color-paddy: var(--paddy);
+  --color-brick: var(--brick);
+
+  /* Font families */
+  --font-display: var(--font-display);
+  --font-ui: var(--font-ui);
+
+  /* Border radii */
+  --radius-input: var(--radius-input);
+  --radius-button: var(--radius-button);
+  --radius-sheet: var(--radius-sheet);
+}
+
+/* Base styles — docs/design.md §4.4 */
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  line-height: 1.7;
+}
+
+/* Bangla-specific: no letter-spacing, higher line-height */
+:lang(bn) {
+  letter-spacing: 0;
+  line-height: 1.7;
+}
+
+/* Latin text within Bangla context */
+:lang(en) {
+  line-height: 1.5;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Touch targets — minimum 44×44 px */
+button,
+a,
+input,
+select,
+textarea,
+[role="button"],
+[role="tab"],
+[role="link"] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--river);
+  color: var(--paper);
+  padding: var(--space-2) var(--space-4);
+  z-index: 100;
+  transition: top 150ms ease-out;
+}
+.skip-link:focus {
+  top: 0;
+}

@@ -1,0 +1,79 @@
+/*
+ * Design tokens — Dishari
+ * Source of truth: docs/design.md §4
+ *
+ * Light is the default. Dark follows the OS with a manual toggle.
+ */
+
+:root {
+  /* Colour */
+  --ink: #14202B;
+  --paper: #F5F7F4;
+  --surface: #FFFFFF;
+  --slate: #52636E;
+  --border: #6B7A84;
+  --mist: #D9E2DE;
+  --river: #1B6E8A;
+  --marigold: #F2A900;
+  --paddy: #2B7A4B;
+  --brick: #B5402F;
+
+  /* Radii */
+  --radius-input: 6px;
+  --radius-button: 8px;
+  --radius-sheet: 16px;
+
+  /* Typography */
+  --font-display: "Tiro Bangla", "Newsreader", "Noto Serif Bengali", Georgia, serif;
+  --font-ui: "Anek Bangla", "Anek Latin", "Noto Sans Bengali", system-ui, sans-serif;
+
+  /* Spacing (4 px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* Elevation */
+  --shadow-dialog: 0 8px 24px rgba(20, 32, 43, 0.18);
+}
+
+/* Dark theme — explicit toggle */
+:root[data-theme="dark"] {
+  --ink: #E7EEF0;
+  --paper: #0F1B23;
+  --surface: #16262F;
+  --slate: #9DB0BA;
+  --border: #7B919E;
+  --mist: #2A3D48;
+  --river: #5FB3D1;
+  --marigold: #F2A900;
+  --paddy: #5BC48A;
+  --brick: #F08A7A;
+}
+
+/* Dark theme — OS preference (unless explicitly set to light) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ink: #E7EEF0;
+    --paper: #0F1B23;
+    --surface: #16262F;
+    --slate: #9DB0BA;
+    --border: #7B919E;
+    --mist: #2A3D48;
+    --river: #5FB3D1;
+    --marigold: #F2A900;
+    --paddy: #5BC48A;
+    --brick: #F08A7A;
+  }
+}
+
+/* Focus ring — docs/design.md §4.4 */
+:focus-visible {
+  outline: 3px solid var(--river);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px var(--paper);
+}
