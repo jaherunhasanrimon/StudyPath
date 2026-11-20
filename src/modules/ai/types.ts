@@ -47,7 +47,7 @@ export interface AiProvider {
 
 export interface StructuredRequest<T> {
   task: AiTask;
-  schema: z.ZodType<T>;
+  schema: z.ZodType<T, z.ZodTypeDef, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
   input: unknown;
   videoUrl?: string;
   userId?: string;
