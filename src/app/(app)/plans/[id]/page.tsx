@@ -1,28 +1,39 @@
-import { notFound } from 'next/navigation';
-import { createServerSupabaseClient } from '@/lib/supabase';
-import { getPlanWithItems } from '@/modules/plans/service';
-import { generateCalendarToken } from '@/modules/plans/token';
+'use client';
+
+import { useState, useEffect, use } from 'react';
+import { PlanWithItems } from '@/modules/plans/types';
 import { PathwayClient } from '@/components/pathway/PathwayClient';
 
-interface PlanPageProps {
+interface PlanDetailPageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function PlanDetailPage({ params }: PlanPageProps) {
-  const { id } = await params;
-  const supabase = await createServerSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+export default function PlanDetailPage({ params }: PlanDetailPageProps) {
+  const { id } = use(params);
+  const [plan, setPlan] = useState<PlanWithItems | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const plan = await getPlanWithItems(supabase, user!.id, id);
-  if (!plan) {
-    notFound();
+  useEffect(() => {
+    fetch(`/api/plans/${id}`)
+      .then((res) => res.json())
+      .then((d) => {
+        if (d.plan) setPlan(d.plan);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, [id]);
+
+  if (loading || !plan) {
+    return (
+      <main id="main-content" className="max-w-[760px] mx-auto px-4 py-8 space-y-6">
+        <div className="h-8 w-60 bg-mist/40 rounded-sheet animate-pulse" />
+        <div className="h-64 bg-mist/20 rounded-sheet animate-pulse" />
+      </main>
+    );
   }
 
-  const token = generateCalendarToken(plan.id);
-  const appUrl = process.env.APP_URL || 'http://localhost:3000';
-  const calendarUrl = `${appUrl}/api/calendar/${plan.id}.ics?token=${token}`;
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const calendarUrl = `${origin}/api/calendar/${plan.id}.ics?token=sample`;
 
   return <PathwayClient plan={plan} calendarUrl={calendarUrl} />;
 }

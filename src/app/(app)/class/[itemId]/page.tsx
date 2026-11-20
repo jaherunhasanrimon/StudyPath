@@ -1,68 +1,52 @@
-import { notFound } from 'next/navigation';
-import { createServerSupabaseClient } from '@/lib/supabase';
-import { PlanItemRow, WatchProgressRow, NoteRow } from '@/modules/plans/types';
+'use client';
+
+import { useState, useEffect, use } from 'react';
+import { PlanItemRow, WatchProgressRow } from '@/modules/plans/types';
 import { ClassClient } from '@/components/class/ClassClient';
 
 interface ClassPageProps {
   params: Promise<{ itemId: string }>;
 }
 
-export default async function ClassPage({ params }: ClassPageProps) {
-  const { itemId } = await params;
-  const supabase = await createServerSupabaseClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+export default function ClassPage({ params }: ClassPageProps) {
+  const { itemId } = use(params);
+  const [data, setData] = useState<{
+    item: PlanItemRow;
+    planId: string;
+    progress: WatchProgressRow | null;
+    note: string | null;
+    nextItemId: string | null;
+  } | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // 1. Fetch item
-  const { data: item, error: itemError } = await supabase
-    .from('plan_items')
-    .select('*')
-    .eq('id', itemId)
-    .single();
+  useEffect(() => {
+    fetch(`/api/class/${itemId}`)
+      .then((res) => res.json())
+      .then((d) => {
+        if (d.item) {
+          setData(d);
+        }
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, [itemId]);
 
-  if (itemError || !item) {
-    notFound();
+  if (loading || !data) {
+    return (
+      <main id="main-content" className="max-w-[850px] mx-auto px-4 py-8 space-y-6">
+        <div className="h-6 w-32 bg-mist/40 rounded-sheet animate-pulse" />
+        <div className="aspect-video w-full bg-mist/20 rounded-sheet animate-pulse" />
+      </main>
+    );
   }
-
-  const planItem = item as PlanItemRow;
-
-  // 2. Fetch watch progress for the video
-  const primaryVideoId = planItem.video_ids[0] || '';
-  const { data: progress } = await supabase
-    .from('watch_progress')
-    .select('*')
-    .eq('user_id', user!.id)
-    .eq('video_id', primaryVideoId)
-    .maybeSingle();
-
-  // 3. Fetch note for the video
-  const { data: note } = await supabase
-    .from('notes')
-    .select('*')
-    .eq('user_id', user!.id)
-    .eq('video_id', primaryVideoId)
-    .order('updated_at', { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  // 4. Find next item in this plan
-  const { data: nextItem } = await supabase
-    .from('plan_items')
-    .select('id')
-    .eq('plan_id', planItem.plan_id)
-    .gt('seq', planItem.seq)
-    .order('seq', { ascending: true })
-    .limit(1)
-    .maybeSingle();
 
   return (
     <ClassClient
-      item={planItem}
-      planId={planItem.plan_id}
-      initialProgress={(progress as WatchProgressRow) || null}
-      initialNote={(note as NoteRow)?.body || null}
-      nextItemId={nextItem ? nextItem.id : null}
+      item={data.item}
+      planId={data.planId}
+      initialProgress={data.progress}
+      initialNote={data.note}
+      nextItemId={data.nextItemId}
     />
   );
 }
