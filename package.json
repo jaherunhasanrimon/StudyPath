@@ -25,6 +25,8 @@
     "pino": "^9.6.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "resend": "^6.39.0",
+    "web-push": "^4.0.0",
     "zod": "^3.24.0"
   },
   "devDependencies": {
@@ -37,6 +39,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/web-push": "^3.6.4",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
     "eslint-plugin-import": "^2.31.0",
