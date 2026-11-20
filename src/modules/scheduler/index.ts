@@ -41,8 +41,9 @@ export function buildPlan(
   // 3. Build work sequence (classes, quizzes, assignments)
   const workItems = buildWorkSequence(classes, prefs);
 
-  // 4. Generate candidate study days
-  const candidateDays = getStudyDays(prefs, 365);
+  // 4. Generate candidate study days (proportional to video count, default at least 90 days)
+  const daysToGenerate = Math.max(90, videos.length * 4);
+  const candidateDays = getStudyDays(prefs, daysToGenerate);
 
   // 5. Pack work items sequentially (or optimize for deadline)
   let planItems: PlanItem[] = [];
