@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { LanguageSwitcher } from '@/components/language-switcher';
 import { DesignShowcase } from './showcase';
@@ -8,6 +9,8 @@ import { DesignShowcase } from './showcase';
  * design.md §14: "Provide the dev-only /design route in Phase 0."
  */
 export default function DesignPage() {
+  const t = useTranslations();
+
   if (process.env.NODE_ENV === 'production') {
     return (
       <main className="flex flex-1 items-center justify-center">
@@ -21,7 +24,7 @@ export default function DesignPage() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <h1 className="font-display text-[34px] leading-[42px] font-semibold text-ink">
-          Design System
+          {t('design.title')}
         </h1>
         <div className="flex gap-3">
           <ThemeToggle />

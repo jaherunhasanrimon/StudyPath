@@ -30,3 +30,9 @@ coverage
 
 # misc
 *.tsbuildinfo
+
+# screenshots (dev-only captures)
+screenshots/
+
+# starter prompt (not part of the app)
+starter-prompt.md

@@ -62,7 +62,7 @@ export default function HomePage() {
 
         {/* Footer note */}
         <p className="text-center text-sm text-slate">
-          No ads. We embed YouTube videos and never copy them.
+          {t('footer.disclaimer')}
         </p>
       </div>
     </main>

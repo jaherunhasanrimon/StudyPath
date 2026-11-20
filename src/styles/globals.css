@@ -14,14 +14,14 @@
   --color-paddy: var(--paddy);
   --color-brick: var(--brick);
 
-  /* Font families */
-  --font-display: var(--font-display);
-  --font-ui: var(--font-ui);
+  /* Font families — use token values directly to avoid circular refs */
+  --font-display: "Tiro Bangla", "Newsreader", "Noto Serif Bengali", Georgia, serif;
+  --font-ui: "Anek Bangla", "Anek Latin", "Noto Sans Bengali", system-ui, sans-serif;
 
   /* Border radii */
-  --radius-input: var(--radius-input);
-  --radius-button: var(--radius-button);
-  --radius-sheet: var(--radius-sheet);
+  --radius-input: 6px;
+  --radius-button: 8px;
+  --radius-sheet: 16px;
 }
 
 /* Base styles — docs/design.md §4.4 */
