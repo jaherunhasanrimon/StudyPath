@@ -36,7 +36,11 @@ export class FakeAiProvider implements AiProvider {
     }
 
     // 1. Playlist Analysis
-    if (req.prompt.includes('playlist_analysis') || req.prompt.includes('subjectGuess')) {
+    if (
+      req.prompt.includes('playlist_analysis') ||
+      req.prompt.includes('subjectGuess') ||
+      req.prompt.includes('Analyze this playlist metadata')
+    ) {
       const mockAnalysis = {
         language: 'bn',
         subjectGuess: 'Higher Mathematics 1st Paper',
@@ -57,7 +61,11 @@ export class FakeAiProvider implements AiProvider {
     }
 
     // 2. Class Insights
-    if (req.prompt.includes('class_insights') || req.prompt.includes('keyPoints')) {
+    if (
+      req.prompt.includes('class_insights') ||
+      req.prompt.includes('Extract learning insights') ||
+      (req.prompt.includes('keyPoints') && !req.prompt.includes('Generate '))
+    ) {
       const mockInsights = {
         videoId: 'mock_v01',
         language: 'bn',
