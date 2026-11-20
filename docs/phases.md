@@ -338,6 +338,10 @@ Effort is in "agent sessions", where one session is a focused planning-mode conv
 | 2026-11-20 | Used HMAC-SHA256 signed calendar subscription URLs | Enables external calendar applications (Google Calendar, Apple Calendar) to subscribe securely without browser auth cookies | Phase 3 |
 | 2026-11-20 | Standardized client-side fetching in `(app)` pages and added `dishari-test-user` cookie check in layout | Allows seamless Playwright network route mocking without live Supabase credentials in CI while preserving 401 unauthenticated redirect checks | Phase 3 |
 | 2026-11-20 | Created consolidated `/api/class/[itemId]` endpoint | Reduces round-trips by retrieving item metadata, video watch progress, user notes, and next sequence item in a single request | Phase 3 |
+| 2026-11-20 | Pure server-side grading and answer key stripping via `formatStudentAssessment` | Prevents client cheating and answer leaks by strictly omitting `answer` and `explanation` until submission | Phase 4 |
+| 2026-11-20 | 6-step assessment verification engine with `mathjs` CAS double-solve | Validates grounding, schema, unique answer keys, and numeric/algebraic equivalence before caching | Phase 4 |
+| 2026-11-20 | 3-tier progressive hint ladder and self-scoring rubric for assignments | Scaffolds learning step-by-step and guides self-assessment against official worked solutions | Phase 4 |
+| 2026-11-20 | Client-side math formula parsing supporting both `\(` and `$$` delimiters in `KaTeXMath` | Enables mixed Bangla/English mathematical typesetting without React 19 dispatcher overhead | Phase 4 |
 
 ## 5. Questions the agent must ask the founder (not guess)
 

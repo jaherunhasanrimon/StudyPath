@@ -9,7 +9,6 @@ import {
   AiResult,
   StructuredRequest,
   Usage,
-  AiError,
 } from './types';
 import { scrubObject } from './scrubber';
 import {

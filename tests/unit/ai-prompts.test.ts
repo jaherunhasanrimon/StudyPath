@@ -9,7 +9,6 @@ import {
 } from '@/modules/ai/prompts/class-insights';
 import {
   GeneratedAssessmentSchema,
-  buildAssessmentPrompt,
 } from '@/modules/ai/prompts/assessment';
 import {
   DoubleSolveSchema,

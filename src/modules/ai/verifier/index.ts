@@ -5,8 +5,8 @@
 import { AssessmentQuestion } from '../prompts/assessment';
 import { ClassInsights } from '../prompts/class-insights';
 import { AiGateway } from '../types';
-import { DoubleSolveSchema, buildDoubleSolvePrompt } from '../prompts/verifier';
-import { checkNumericEquivalence, checkAlgebraicEquivalence } from './mathjs';
+import { DoubleSolveSchema } from '../prompts/verifier';
+import { checkNumericEquivalence } from './mathjs';
 
 export type VerifierStatus =
   | 'unverified'
