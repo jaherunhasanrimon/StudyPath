@@ -10,7 +10,8 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   const cookieStore = await cookies();
-  const testUser = cookieStore.get('dishari-test-user');
+  const testUser =
+    process.env.NODE_ENV === 'test' ? cookieStore.get('dishari-test-user') : undefined;
 
   if (testUser?.value !== 'admin') {
     const supabase = await createServerSupabaseClient();

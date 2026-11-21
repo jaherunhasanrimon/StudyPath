@@ -7,7 +7,8 @@ import { computePilotMetrics } from '@/modules/admin/metrics';
 export async function GET() {
   try {
     const cookieStore = await cookies();
-    const testUser = cookieStore.get('dishari-test-user');
+    const testUser =
+      process.env.NODE_ENV === 'test' ? cookieStore.get('dishari-test-user') : undefined;
     const supabase = await createServerSupabaseClient();
 
     if (testUser?.value !== 'admin') {

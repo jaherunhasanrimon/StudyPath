@@ -27,9 +27,10 @@ export async function GET() {
       data: { user },
     } = await supabase.auth.getUser();
 
-    // Check for dishari-test-user cookie (used in Playwright tests)
+    // Check for dishari-test-user cookie (used in Playwright tests, test env only)
     const cookieStore = await cookies();
-    const testCookie = cookieStore.get('dishari-test-user');
+    const testCookie =
+      process.env.NODE_ENV === 'test' ? cookieStore.get('dishari-test-user') : undefined;
     if (!user && testCookie?.value) {
       user = { id: testCookie.value, email: 'test@example.com' } as unknown as User;
     }

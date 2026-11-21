@@ -19,7 +19,8 @@ const adminCreateOptOutSchema = z.object({
 export async function GET() {
   try {
     const cookieStore = await cookies();
-    const testUser = cookieStore.get('dishari-test-user');
+    const testUser =
+      process.env.NODE_ENV === 'test' ? cookieStore.get('dishari-test-user') : undefined;
     const supabase = await createServerSupabaseClient();
 
     if (testUser?.value !== 'admin') {
@@ -43,7 +44,8 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const cookieStore = await cookies();
-    const testUser = cookieStore.get('dishari-test-user');
+    const testUser =
+      process.env.NODE_ENV === 'test' ? cookieStore.get('dishari-test-user') : undefined;
     const supabase = await createServerSupabaseClient();
     let adminId = '00000000-0000-0000-0000-000000000001';
 

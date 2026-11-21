@@ -11,7 +11,8 @@ import { FeedbackWidget } from '@/components/feedback/FeedbackWidget';
  */
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
-  const testUserCookie = cookieStore.get('dishari-test-user');
+  const testUserCookie =
+    process.env.NODE_ENV === 'test' ? cookieStore.get('dishari-test-user') : undefined;
 
   if (testUserCookie?.value) {
     return (
