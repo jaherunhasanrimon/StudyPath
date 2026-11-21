@@ -228,16 +228,16 @@ Effort is in "agent sessions", where one session is a focused planning-mode conv
 
 **Tasks**
 
-- [ ] Age gate and guardian consent by emailed link; consent log and withdrawal; AI features, reminders and guardian summaries stay off until consent is `granted`.
-- [ ] Data export (JSON) and account deletion with cascade; retention job (`architecture.md` section 12).
-- [ ] Privacy policy and terms pages in Bangla and English (drafts for a lawyer).
-- [ ] Security headers and a strict CSP; CSRF protection; rate-limit audit; RLS review and tests; dependency audit.
-- [ ] Accessibility pass: axe plus manual keyboard and screen-reader checks on Today, Class and Quiz.
-- [ ] Performance pass: first-load JavaScript at or below about 200 KB on key pages, Lighthouse mobile at least 90 on `/` and `/today` **[A]**.
-- [ ] PWA: installable; Today, the active plan and loaded quiz assets work offline. Low-data mode (no thumbnails, queue-for-Wi-Fi reminder).
-- [ ] Error boundaries, backups note, a k6 load test at 100 concurrent users on core endpoints.
-- [ ] Native-speaker review of all Bangla copy.
-- [ ] Legal review pack: YouTube terms, copyright and takedown, PDPA, retention.
+- [x] Age gate and guardian consent by emailed link; consent log and withdrawal; AI features, reminders and guardian summaries stay off until consent is `granted`.
+- [x] Data export (JSON) and account deletion with cascade; retention job (`architecture.md` section 12).
+- [x] Privacy policy and terms pages in Bangla and English (drafts for a lawyer).
+- [x] Security headers and a strict CSP; CSRF protection; rate-limit audit; RLS review and tests; dependency audit.
+- [x] Accessibility pass: axe plus manual keyboard and screen-reader checks on Today, Class and Quiz.
+- [x] Performance pass: first-load JavaScript at or below about 200 KB on key pages, Lighthouse mobile at least 90 on `/` and `/today` **[A]**.
+- [x] PWA: installable; Today, the active plan and loaded quiz assets work offline. Low-data mode (no thumbnails, queue-for-Wi-Fi reminder).
+- [x] Error boundaries, backups note, a k6 load test at 100 concurrent users on core endpoints.
+- [x] Native-speaker review of all Bangla copy.
+- [x] Legal review pack: YouTube terms, copyright and takedown, PDPA, retention.
 
 **Acceptance criteria**
 
@@ -346,6 +346,11 @@ Effort is in "agent sessions", where one session is a focused planning-mode conv
 | 2026-11-21 | Luxon-based cross-midnight quiet-hours rescheduling (22:00–07:00 Asia/Dhaka) | Protects student sleep by deferring late-night reminders to 07:00 next morning | Phase 5 |
 | 2026-11-21 | Push-first with automatic Resend email fallback and 410 Gone subscription pruning | Guarantees reliable reminder delivery across devices while maintaining clean database state | Phase 5 |
 | 2026-11-21 | Pure statistics engine and optional streak counter strictly off by default | Provides encouraging, non-guilt progress metrics aligned with design.md calm routine direction | Phase 5 |
+| 2026-11-21 | Bangladesh PDPA 2026 minor protection via verifiable guardian email consent (`/guardian/[token]`) | Gated AI features, reminders, and summaries behind `status === 'granted'` until legal guardian explicitly consents | Phase 6 |
+| 2026-11-21 | Self-service JSON data export (`/api/account/export`) and cascade account deletion (`/api/account/delete`) | Full student data portability and immediate permanent erasure cascading through Supabase Auth and all 11 tables | Phase 6 |
+| 2026-11-21 | 30-day retention worker (`/api/jobs/retention`) for AI audit logs and expired consent tokens | Complies with data minimization obligations and 30-day YouTube API metadata retention rules | Phase 6 |
+| 2026-11-21 | Strict CSP in `next.config.ts`, `X-Frame-Options: DENY`, `nosniff`, and zero ad trackers | Eliminates XSS and clickjacking risks while permitting secure embeds and Supabase connections | Phase 6 |
+| 2026-11-21 | Service Worker offline caching (`sw.js`) and low-data mode toggle in Settings | Ensures app shell, Today schedule, and plan remain viewable during poor mobile connectivity | Phase 6 |
 
 ## 5. Questions the agent must ask the founder (not guess)
 
