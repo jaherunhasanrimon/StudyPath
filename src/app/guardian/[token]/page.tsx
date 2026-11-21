@@ -1,19 +1,52 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { createAdminSupabaseClient } from '@/lib/supabase';
-import { verifyConsentToken } from '@/modules/consent/service';
+import { useParams } from 'next/navigation';
 import { GuardianConsentView } from '@/components/consent/GuardianConsentView';
 
-interface PageProps {
-  params: Promise<{ token: string }>;
-}
+export default function GuardianConsentPage() {
+  const params = useParams();
+  const token = params?.token as string;
 
-export default async function GuardianConsentPage({ params }: PageProps) {
-  const { token } = await params;
-  const supabaseAdmin = createAdminSupabaseClient();
-  const consent = await verifyConsentToken(supabaseAdmin, token);
+  const [loading, setLoading] = useState(true);
+  const [consentData, setConsentData] = useState<{
+    status: 'pending' | 'granted' | 'revoked' | 'expired';
+    guardian_email: string;
+    student_name: string | null;
+    token_expires_at: string;
+  } | null>(null);
 
-  if (!consent) {
+  useEffect(() => {
+    async function loadConsent() {
+      if (!token) return;
+      try {
+        const res = await fetch(`/api/consent/verify?token=${encodeURIComponent(token)}`);
+        const json = await res.json();
+        if (res.ok && json.ok) {
+          setConsentData(json.consent);
+        }
+      } catch (err) {
+        console.error('Failed to load consent:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadConsent();
+  }, [token]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-900 text-slate-100 flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-slate-800 border border-slate-700 rounded-xl p-8 text-center shadow-xl space-y-4">
+          <div className="h-8 w-48 mx-auto animate-pulse rounded bg-slate-700" />
+          <div className="h-20 animate-pulse rounded bg-slate-700" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!consentData) {
     return (
       <div className="min-h-screen bg-slate-900 text-slate-100 flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-slate-800 border border-slate-700 rounded-xl p-8 text-center shadow-xl">
@@ -33,22 +66,14 @@ export default async function GuardianConsentPage({ params }: PageProps) {
     );
   }
 
-  const { data: profile } = await supabaseAdmin
-    .from('profiles')
-    .select('display_name')
-    .eq('id', consent.student_id)
-    .maybeSingle();
-
-  const isExpired = consent.status === 'expired';
-
   return (
     <GuardianConsentView
       token={token}
-      initialStatus={consent.status}
-      guardianEmail={consent.guardian_email}
-      studentName={profile?.display_name || null}
-      expiresAt={consent.token_expires_at}
-      isExpired={isExpired}
+      initialStatus={consentData.status}
+      guardianEmail={consentData.guardian_email}
+      studentName={consentData.student_name}
+      expiresAt={consentData.token_expires_at}
+      isExpired={consentData.status === 'expired'}
     />
   );
 }
