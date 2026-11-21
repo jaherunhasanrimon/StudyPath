@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { createServerSupabaseClient } from '@/lib/supabase';
 import { AppNav } from '@/components/navigation/AppNav';
+import { FeedbackWidget } from '@/components/feedback/FeedbackWidget';
 
 /**
  * Protected route group (app).
@@ -17,6 +18,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       <div className="min-h-screen flex flex-col bg-paper pb-20 sm:pb-8">
         <AppNav />
         <div className="flex-1 max-w-[1100px] w-full mx-auto">{children}</div>
+        <FeedbackWidget />
       </div>
     );
   }
@@ -38,6 +40,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
     <div className="min-h-screen flex flex-col bg-paper pb-20 sm:pb-8">
       <AppNav />
       <div className="flex-1 max-w-[1100px] w-full mx-auto">{children}</div>
+      <FeedbackWidget />
     </div>
   );
 }
