@@ -18,6 +18,7 @@ export interface Usage {
 export type AiErrorCode =
   | 'KILL_SWITCH_ACTIVE'
   | 'QUOTA_EXCEEDED'
+  | 'GUARDIAN_CONSENT_REQUIRED'
   | 'TIMEOUT'
   | 'PROVIDER_ERROR'
   | 'SCHEMA_ERROR'

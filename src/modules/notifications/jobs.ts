@@ -13,6 +13,7 @@ import {
   determinePlanHealth,
   PlanItemProgress,
 } from '../learning/progress';
+import { checkMinorAccess } from '../consent/service';
 
 export interface SendRemindersJobResult {
   processedCount: number;
@@ -72,6 +73,19 @@ export async function sendRemindersJob(
 
   for (const rem of reminders) {
     result.processedCount++;
+
+    // Minor protection check: under-18 students cannot receive reminders without guardian consent
+    const minorAccess = await checkMinorAccess(supabase, rem.user_id);
+    if (!minorAccess.allowed) {
+      await supabase
+        .from('reminders')
+        .update({
+          status: 'cancelled',
+          error: 'Skipped: Under-18 student requires verified guardian consent.',
+        })
+        .eq('id', rem.id);
+      continue;
+    }
 
     // Fetch user preferences and profile
     const { data: pref } = await supabase
@@ -232,6 +246,12 @@ export async function weeklySummaryJob(
 
   for (const userId of userIds) {
     result.usersProcessed++;
+
+    // Minor protection check: under-18 students cannot receive summaries without guardian consent
+    const minorAccess = await checkMinorAccess(supabase, userId);
+    if (!minorAccess.allowed) {
+      continue;
+    }
 
     // Fetch plan items
     const { data: items } = await supabase

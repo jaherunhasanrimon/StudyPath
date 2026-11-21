@@ -18,6 +18,7 @@ import {
   estimateCostUsd,
   logAiCall,
 } from './quotas';
+import { checkUserMinorAccess } from '../consent/service';
 
 export class DefaultAiGateway implements AiGateway {
   constructor(private provider: AiProvider) {}
@@ -26,8 +27,20 @@ export class DefaultAiGateway implements AiGateway {
     const startTime = Date.now();
     const promptVersion = req.promptVersion || '1.0.0';
 
-    // 1. Quota check
+    // 1. Minor protection / guardian consent check
     if (req.userId) {
+      const access = await checkUserMinorAccess(req.userId);
+      if (!access.allowed) {
+        return {
+          ok: false,
+          error: {
+            code: 'GUARDIAN_CONSENT_REQUIRED',
+            message: 'Under-18 students require verified guardian consent to access AI features.',
+          },
+        };
+      }
+
+      // Quota check
       const quota = await checkUserQuota(req.userId);
       if (!quota.allowed) {
         return {
