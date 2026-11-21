@@ -1,0 +1,17 @@
+{
+  "name": "দিশারি — Study Pathway",
+  "short_name": "দিশারি",
+  "description": "Bangla-first, mobile-first study pathway planner for YouTube playlists",
+  "start_url": "/today",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f172a",
+  "theme_color": "#0d9488",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
