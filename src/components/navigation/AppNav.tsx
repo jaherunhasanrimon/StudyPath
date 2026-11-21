@@ -90,6 +90,15 @@ export function AppNav() {
                   </Link>
                 );
               })}
+              {pathname?.startsWith('/admin') && (
+                <Link
+                  href="/admin"
+                  className="px-3 py-1.5 rounded-input text-sm font-semibold transition-colors flex items-center gap-1.5 bg-river/10 text-river"
+                >
+                  <span aria-hidden="true">🛡️</span>
+                  <span>এডমিন</span>
+                </Link>
+              )}
             </nav>
           </div>
 

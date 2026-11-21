@@ -24,7 +24,7 @@ export interface QuestionReviewItem {
 
 export interface QuestionUpdatePayload {
   is_hidden?: boolean;
-  verifier_status?: 'human_ok' | 'failed';
+  verifier_status?: 'human_ok' | 'failed' | 'unverified';
   stem?: string;
   options?: unknown;
   answer?: unknown;

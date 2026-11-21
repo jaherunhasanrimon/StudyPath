@@ -165,4 +165,22 @@ describe('Creator Opt-Out & Shared Insight Purge', () => {
       })
     );
   });
+
+  it('lists creator opt outs', async () => {
+    const mockOptOuts = [
+      { id: '1', channel_id: 'c1', channel_title: 'Channel 1', status: 'active' },
+    ];
+    const orderFn = vi.fn().mockResolvedValue({ data: mockOptOuts, error: null });
+    const mockSupabase = {
+      from: vi.fn().mockReturnValue({
+        select: vi.fn().mockReturnValue({
+          order: orderFn,
+        }),
+      }),
+    } as unknown as SupabaseClient;
+
+    const list = await listCreatorOptOuts(mockSupabase);
+    expect(list).toHaveLength(1);
+    expect(list[0].channel_title).toBe('Channel 1');
+  });
 });
