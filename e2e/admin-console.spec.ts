@@ -78,7 +78,7 @@ test.describe('Admin Console & Pilot Operations (Phase 7 Acceptance Criteria)', 
   test("Acceptance 2: An opt-out request removes a creator's videos from shared insights", async ({
     page,
   }) => {
-    let optOutRecords = [
+    const optOutRecords = [
       {
         id: 'optout-1',
         channel_id: 'UC_test_creator',

@@ -195,7 +195,7 @@ test.describe('Phase 3 Learning Loop Flow', () => {
   test('full learning loop: create plan -> today -> class view -> progress -> replan', async ({ page }) => {
     // 1. Visit wizard
     await page.goto('/new?url=https://www.youtube.com/playlist?list=PLmath1234567890');
-    await expect(page.getByText('Onnorokom Pathshala')).toBeVisible();
+    await expect(page.getByText('Onnorokom Pathshala').first()).toBeVisible();
 
     // Advance to Step 4
     await page.getByRole('button', { name: /গতি নির্ধারণ|Continue to Pace/i }).click();

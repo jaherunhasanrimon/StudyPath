@@ -46,7 +46,7 @@ export function PilotDashboardView({ metrics: initialMetrics }: PilotDashboardVi
 
         <div className="p-5 rounded-card border border-border bg-surface">
           <p className="text-xs uppercase tracking-wider text-slate font-semibold">মোট এআই খরচ (USD)</p>
-          <p className="text-3xl font-display font-bold text-marigold mt-2">
+          <p className="text-3xl font-display font-bold text-ink mt-2">
             ${metrics.totalAiCostUsd.toFixed(3)}
           </p>
           <p className="text-xs text-slate mt-1">শিক্ষার্থী প্রতি: ${metrics.costPerActiveStudentUsd.toFixed(3)}</p>

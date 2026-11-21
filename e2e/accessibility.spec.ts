@@ -100,4 +100,92 @@ test.describe('Accessibility Audit (axe-core WCAG 2.1 AA)', () => {
     );
     expect(seriousOrCritical).toEqual([]);
   });
+
+  test('Creator Opt-Out page (/opt-out) has no critical or serious accessibility violations', async ({ page }) => {
+    await page.goto('/opt-out');
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa'])
+      .analyze();
+
+    const seriousOrCritical = accessibilityScanResults.violations.filter(
+      (v) => v.impact === 'critical' || v.impact === 'serious'
+    );
+    expect(seriousOrCritical).toEqual([]);
+  });
+
+  test('Admin Queue (/admin/queue) has no critical or serious accessibility violations', async ({ page, context }) => {
+    await context.addCookies([
+      { name: 'dishari-test-user', value: 'admin', domain: 'localhost', path: '/' },
+    ]);
+    await page.route('**/api/admin/queue*', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          queue: [
+            {
+              id: 'q1',
+              assessment_id: 'a1',
+              position: 1,
+              type: 'mcq',
+              stem: 'Sample Question',
+              options: ['A', 'B'],
+              answer: 'A',
+              explanation: 'Exp',
+              verifier_status: 'unverified',
+              report_count: 1,
+              is_hidden: false,
+              reviewed_at: null,
+              reviewed_by: null,
+              created_at: new Date().toISOString(),
+            },
+          ],
+        }),
+      });
+    });
+
+    await page.goto('/admin/queue');
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa'])
+      .analyze();
+
+    const seriousOrCritical = accessibilityScanResults.violations.filter(
+      (v) => v.impact === 'critical' || v.impact === 'serious'
+    );
+    expect(seriousOrCritical).toEqual([]);
+  });
+
+  test('Admin Pilot Dashboard (/admin/pilot) has no critical or serious accessibility violations', async ({ page, context }) => {
+    await context.addCookies([
+      { name: 'dishari-test-user', value: 'admin', domain: 'localhost', path: '/' },
+    ]);
+    await page.route('**/api/admin/pilot-stats*', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          metrics: {
+            totalStudents: 5,
+            activeStudents: 5,
+            retention: { week1Rate: 100, week4Rate: 80, week8Rate: 60 },
+            overallAdherenceRate: 88,
+            quizAttemptRate: 95,
+            totalAiCostUsd: 0.042,
+            costPerActiveStudentUsd: 0.008,
+            calculatedAt: new Date().toISOString(),
+          },
+        }),
+      });
+    });
+
+    await page.goto('/admin/pilot');
+    const accessibilityScanResults = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa'])
+      .analyze();
+
+    const seriousOrCritical = accessibilityScanResults.violations.filter(
+      (v) => v.impact === 'critical' || v.impact === 'serious'
+    );
+    expect(seriousOrCritical).toEqual([]);
+  });
 });

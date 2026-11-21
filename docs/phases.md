@@ -351,6 +351,13 @@ Effort is in "agent sessions", where one session is a focused planning-mode conv
 | 2026-11-21 | 30-day retention worker (`/api/jobs/retention`) for AI audit logs and expired consent tokens | Complies with data minimization obligations and 30-day YouTube API metadata retention rules | Phase 6 |
 | 2026-11-21 | Strict CSP in `next.config.ts`, `X-Frame-Options: DENY`, `nosniff`, and zero ad trackers | Eliminates XSS and clickjacking risks while permitting secure embeds and Supabase connections | Phase 6 |
 | 2026-11-21 | Service Worker offline caching (`sw.js`) and low-data mode toggle in Settings | Ensures app shell, Today schedule, and plan remain viewable during poor mobile connectivity | Phase 6 |
+| 2026-11-21 | Migration 0007 question moderation with RLS suppression (`is_hidden = FALSE AND report_count < 3`) and PostgREST schema grants | Ensures immediate (< 1 min) hiding of defective questions across all student queries and prevents PostgreSQL permission denied errors on Supabase tables | Phase 7 |
+| 2026-11-21 | Creator opt-out handling with immediate insight purge across `videos` and `video_insights` | Protects YouTube content creators' intellectual property and prevents AI generation for opted-out channels | Phase 7 |
+| 2026-11-21 | In-app feedback widget (`FeedbackWidget.tsx`) with category triage and client metadata capture | Collects student bug reports, question errors, and pedagogical suggestions without disrupting study sessions | Phase 7 |
+| 2026-11-21 | Cohort metrics engine (`metrics.ts`) computing Week 1, 4, 8 retention, schedule adherence, quiz rates, and AI spend ($USD) | Provides founder visibility into pilot health, student engagement, and LLM cost sustainability | Phase 7 |
+| 2026-11-21 | 10 human-checked starter playlists with verified badges for core SSC & HSC subjects | Solves cold-start problem by providing 1-click curated pathways from reputable creators (Onnorokom Pathshala, 10MS, Khan Academy Bangla) | Phase 7 |
+| 2026-11-21 | Comprehensive pilot onboarding protocol and emergency response runbook (`docs/pilot/`) | Defines exact 5-student testing specifications, target success thresholds, and step-by-step incident escalation procedures | Phase 7 |
+
 
 ## 5. Questions the agent must ask the founder (not guess)
 
