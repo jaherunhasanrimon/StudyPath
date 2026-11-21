@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from '@/components/language-switcher';
 
@@ -6,7 +7,22 @@ import { LanguageSwitcher } from '@/components/language-switcher';
  * Home page — signed out view.
  * Phase 0: minimal shell matching design.md §7.1 structure.
  */
-export default function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const params = await searchParams;
+  const code = params?.code;
+  if (code && typeof code === 'string') {
+    const next = typeof params?.next === 'string' ? params.next : '/today';
+    redirect(`/auth/callback?code=${encodeURIComponent(code)}&next=${encodeURIComponent(next)}`);
+  }
+
+  return <HomeView />;
+}
+
+function HomeView() {
   const t = useTranslations();
 
   return (

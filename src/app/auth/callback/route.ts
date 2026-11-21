@@ -3,6 +3,7 @@
  * Handles Supabase auth redirects (magic link, OAuth).
  */
 import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 import { createServerSupabaseClient } from '@/lib/supabase';
 
 export async function GET(request: NextRequest) {
@@ -12,11 +13,16 @@ export async function GET(request: NextRequest) {
 
   if (code) {
     try {
+      const cookieStore = await cookies();
       const supabase = await createServerSupabaseClient();
       const { error } = await supabase.auth.exchangeCodeForSession(code);
 
       if (!error) {
-        return NextResponse.redirect(new URL(next, requestUrl.origin));
+        const response = NextResponse.redirect(new URL(next, requestUrl.origin));
+        cookieStore.getAll().forEach((c) => {
+          response.cookies.set(c.name, c.value);
+        });
+        return response;
       }
 
       console.error('Failed to exchange code for session:', error);

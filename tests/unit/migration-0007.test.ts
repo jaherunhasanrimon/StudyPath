@@ -49,4 +49,9 @@ describe('Migration 0007 (Pilot Readiness & Admin Moderation)', () => {
     expect(sql).toContain("email = 'rimonhassan013@gmail.com'");
     expect(sql).toContain("SET role = 'admin'");
   });
+
+  it('grants required permissions on public schema to anon, authenticated, and service_role', () => {
+    expect(sql).toContain('GRANT USAGE ON SCHEMA public TO anon, authenticated, service_role;');
+    expect(sql).toContain('GRANT ALL ON ALL TABLES IN SCHEMA public TO anon, authenticated, service_role;');
+  });
 });
