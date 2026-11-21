@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import webpush from 'web-push';
+import { sendNotification } from 'web-push';
 import {
   sendPushNotification,
   urlBase64ToUint8Array,
@@ -8,10 +8,8 @@ import { PushSubscriptionPayload, NotificationPayload } from '@/modules/notifica
 
 vi.mock('web-push', () => {
   return {
-    default: {
-      setVapidDetails: vi.fn(),
-      sendNotification: vi.fn(),
-    },
+    setVapidDetails: vi.fn(),
+    sendNotification: vi.fn(),
   };
 });
 
@@ -38,7 +36,7 @@ describe('Web Push Delivery (architecture.md §11)', () => {
   });
 
   it('successfully delivers web push notification', async () => {
-    vi.mocked(webpush.sendNotification).mockResolvedValueOnce({
+    vi.mocked(sendNotification).mockResolvedValueOnce({
       statusCode: 201,
       body: '',
       headers: {},
@@ -47,14 +45,14 @@ describe('Web Push Delivery (architecture.md §11)', () => {
     const result = await sendPushNotification(mockSubscription, mockPayload);
     expect(result.success).toBe(true);
     expect(result.statusCode).toBe(201);
-    expect(webpush.sendNotification).toHaveBeenCalledTimes(1);
+    expect(sendNotification).toHaveBeenCalledTimes(1);
   });
 
   it('detects 410 Gone / 404 as expired subscription', async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const error: any = new Error('Subscription expired');
     error.statusCode = 410;
-    vi.mocked(webpush.sendNotification).mockRejectedValueOnce(error);
+    vi.mocked(sendNotification).mockRejectedValueOnce(error);
 
     const result = await sendPushNotification(mockSubscription, mockPayload);
     expect(result.success).toBe(false);

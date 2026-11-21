@@ -3,7 +3,7 @@
  * Dispatches web push notifications using VAPID keys.
  * Handles 410 Gone / 404 Not Found as subscription expiration.
  */
-import webpush from 'web-push';
+import { setVapidDetails, sendNotification } from 'web-push';
 import {
   PushSubscriptionPayload,
   NotificationPayload,
@@ -23,7 +23,7 @@ function configureVapid(): boolean {
     return false;
   }
 
-  webpush.setVapidDetails(subject, publicKey, privateKey);
+  setVapidDetails(subject, publicKey, privateKey);
   vapidConfigured = true;
   return true;
 }
@@ -60,7 +60,7 @@ export async function sendPushNotification(
       icon: payload.icon || '/favicon.ico',
     });
 
-    const response = await webpush.sendNotification(pushSubscription, payloadString);
+    const response = await sendNotification(pushSubscription, payloadString);
 
     return {
       success: true,
