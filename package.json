@@ -30,6 +30,7 @@
     "zod": "^3.24.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@playwright/test": "^1.52.0",
     "@tailwindcss/turbopack": "4.3.3",
     "@testing-library/jest-dom": "^6.6.0",

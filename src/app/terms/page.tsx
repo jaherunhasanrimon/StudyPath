@@ -28,7 +28,7 @@ export default function TermsPage() {
             <button
               onClick={() => setLang('bn')}
               className={`px-3 py-1.5 text-xs font-semibold rounded ${
-                lang === 'bn' ? 'bg-teal-600 text-white' : 'text-slate-400 hover:text-slate-200'
+                lang === 'bn' ? 'bg-teal-700 text-white' : 'text-slate-300 hover:text-white'
               }`}
             >
               বাংলা
@@ -36,7 +36,7 @@ export default function TermsPage() {
             <button
               onClick={() => setLang('en')}
               className={`px-3 py-1.5 text-xs font-semibold rounded ${
-                lang === 'en' ? 'bg-teal-600 text-white' : 'text-slate-400 hover:text-slate-200'
+                lang === 'en' ? 'bg-teal-700 text-white' : 'text-slate-300 hover:text-white'
               }`}
             >
               English
