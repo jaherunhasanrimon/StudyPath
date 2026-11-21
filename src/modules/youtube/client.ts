@@ -63,6 +63,11 @@ export class YouTubeClient {
     playlistId: string,
     maxLimit: number = 300
   ): Promise<RawPlaylistResult> {
+    // Missing API key check
+    if (!this.apiKey || !this.apiKey.trim()) {
+      throw new Error('CONFIG_ERROR: YouTube API key is missing. Set YOUTUBE_API_KEY in environment variables.');
+    }
+
     // Quota circuit breaker check
     if (this.quotaUsedToday >= QUOTA_CIRCUIT_BREAKER) {
       throw new Error('QUOTA_EXCEEDED');
@@ -136,9 +141,29 @@ export class YouTubeClient {
 
     const res = await fetch(url.toString());
     if (!res.ok) {
-      if (res.status === 403) throw new Error('PLAYLIST_PRIVATE');
+      const errJson = await res.json().catch(() => null);
+      const reason = errJson?.error?.errors?.[0]?.reason || errJson?.error?.status;
+      const message = errJson?.error?.message || res.statusText;
+
+      if (res.status === 403) {
+        if (reason === 'quotaExceeded' || reason === 'dailyLimitExceeded') {
+          throw new Error('QUOTA_EXCEEDED');
+        }
+        if (reason === 'playlistForbidden') {
+          throw new Error('PLAYLIST_PRIVATE');
+        }
+        if (
+          reason === 'keyInvalid' ||
+          reason === 'accessNotConfigured' ||
+          reason === 'PERMISSION_DENIED' ||
+          reason === 'forbidden'
+        ) {
+          throw new Error(`CONFIG_ERROR: YouTube API key error (${reason}): ${message}`);
+        }
+        throw new Error(`UPSTREAM_ERROR: ${message}`);
+      }
       if (res.status === 404) throw new Error('PLAYLIST_NOT_FOUND');
-      throw new Error(`UPSTREAM_ERROR: ${res.statusText}`);
+      throw new Error(`UPSTREAM_ERROR: ${message}`);
     }
 
     const data = await res.json();

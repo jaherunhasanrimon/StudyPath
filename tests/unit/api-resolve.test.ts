@@ -72,4 +72,20 @@ describe('POST /api/playlists/resolve', () => {
     const data = await res.json();
     expect(data.error).toBe('RATE_LIMITED');
   });
+
+  it('successfully resolves verified starter playlists instantly without API calls', async () => {
+    const req = new NextRequest('http://localhost:3000/api/playlists/resolve', {
+      method: 'POST',
+      body: JSON.stringify({ url: 'https://www.youtube.com/playlist?list=PL_X2k43R1f5kXy9_TRIG_SSC_01' }),
+    });
+
+    const res = await POST(req);
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.playlistId).toBe('PL_X2k43R1f5kXy9_TRIG_SSC_01');
+    expect(data.itemCount).toBe(14);
+    expect(data.items.length).toBe(14);
+    expect(data.order.isSequential).toBe(true);
+    expect(data.quotaUnitsUsed).toBe(0);
+  });
 });

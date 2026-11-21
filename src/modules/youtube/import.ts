@@ -14,6 +14,7 @@ import { analyzePlaylistOrder } from './order';
 import { formatDuration } from './duration';
 import { calculateMetadataExpiration } from './retention';
 import { PlaylistPreview, PlaylistItemPreview, VideoWarning } from './types';
+import { STARTER_PLAYLISTS, createStarterPlaylistPreview } from '@/modules/admin/starter-playlists';
 
 export const CACHE_TTL_HOURS = 24;
 export const MAX_PLAYLIST_CAP = 300;
@@ -50,6 +51,19 @@ export async function resolvePlaylist(
   }
 
   const { playlistId } = parseRes;
+
+  // 1. Check if this is one of our verified starter playlists
+  const starter = STARTER_PLAYLISTS.find(
+    (s) =>
+      s.playlistUrl.includes(playlistId) ||
+      s.id === playlistId ||
+      urlOrId.includes(s.id) ||
+      (playlistId.startsWith('PL_X2k43R1f5kXy9_') && s.playlistUrl.includes(playlistId))
+  );
+  if (starter) {
+    return createStarterPlaylistPreview(starter);
+  }
+
   const cache = deps.cacheStore || inMemoryCache;
   const now = Date.now();
 

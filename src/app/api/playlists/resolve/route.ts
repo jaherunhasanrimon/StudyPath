@@ -153,6 +153,32 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (errorMsg.startsWith('CONFIG_ERROR')) {
+      return NextResponse.json(
+        {
+          error: 'CONFIG_ERROR',
+          message:
+            locale === 'bn'
+              ? 'সার্ভারে YouTube API কী কনফিগার করা নেই। অনুগ্রহ করে Vercel বা এনভায়রনমেন্ট সেটিংসে YOUTUBE_API_KEY যুক্ত করুন।'
+              : 'YouTube API key is missing or unconfigured. Please configure YOUTUBE_API_KEY in Vercel environment variables.',
+        },
+        { status: 500 }
+      );
+    }
+
+    if (errorMsg.startsWith('UPSTREAM_ERROR')) {
+      return NextResponse.json(
+        {
+          error: 'UPSTREAM_ERROR',
+          message:
+            locale === 'bn'
+              ? 'YouTube API সংযোগে সমস্যা হয়েছে। লিংকটি পাবলিক কি না যাচাই করুন অথবা কিছুক্ষণ পর চেষ্টা করুন।'
+              : 'YouTube API connection error. Please ensure the playlist is public or try again later.',
+        },
+        { status: 502 }
+      );
+    }
+
     return NextResponse.json(
       { error: 'INTERNAL_ERROR', message: t.error.generic },
       { status: 500 }
