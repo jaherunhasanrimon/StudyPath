@@ -10,6 +10,7 @@ import { toBanglaDigits } from '@/modules/youtube/duration';
 import { Prefs, Video } from '@/modules/scheduler/types';
 import { DEFAULT_AVAILABILITY } from '@/modules/scheduler/schema';
 import { buildPlan } from '@/modules/scheduler';
+import { StarterPlaylistsGrid } from '@/components/starter/StarterPlaylistsGrid';
 import { Step2Pace } from '@/components/wizard/Step2Pace';
 import { Step3Checks } from '@/components/wizard/Step3Checks';
 import { Step4Plan } from '@/components/wizard/Step4Plan';
@@ -298,6 +299,19 @@ export function PlaylistForm() {
                   <div key={i} className="h-14 bg-mist/20 rounded-input" />
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Starter Playlists Grid for 1-click selection */}
+          {!preview && !loading && (
+            <div className="pt-6 border-t border-border mt-8">
+              <StarterPlaylistsGrid
+                compact
+                onSelect={(url) => {
+                  setInputUrl(url);
+                  handleResolve(url);
+                }}
+              />
             </div>
           )}
 
