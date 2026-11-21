@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { LanguageSwitcher } from '@/components/language-switcher';
 
@@ -61,18 +62,29 @@ export default function HomePage() {
 
         {/* Sign in link */}
         <div className="text-center">
-          <a
+          <Link
             href="/auth/sign-in"
             className="text-river underline underline-offset-4 hover:text-river/80"
           >
             {t('cta.signIn')}
-          </a>
+          </Link>
         </div>
 
         {/* Footer note */}
         <p className="text-center text-sm text-slate">
           {t('footer.disclaimer')}
         </p>
+
+        {/* Legal links */}
+        <footer className="text-center text-xs text-slate space-x-3 pt-2">
+          <Link href="/privacy" className="hover:underline">
+            গোপনীয়তা নীতি (Privacy)
+          </Link>
+          <span>•</span>
+          <Link href="/terms" className="hover:underline">
+            ব্যবহারের শর্তাবলী (Terms)
+          </Link>
+        </footer>
       </div>
     </main>
   );
