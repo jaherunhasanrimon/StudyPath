@@ -1,18 +1,27 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { QuestionReviewItem } from '@/modules/admin/types';
 
 interface ReviewQueueTableProps {
-  initialQuestions: QuestionReviewItem[];
+  initialQuestions?: QuestionReviewItem[];
 }
 
-export function ReviewQueueTable({ initialQuestions }: ReviewQueueTableProps) {
+export function ReviewQueueTable({ initialQuestions = [] }: ReviewQueueTableProps) {
   const [questions, setQuestions] = useState<QuestionReviewItem[]>(initialQuestions);
   const [editingItem, setEditingItem] = useState<QuestionReviewItem | null>(null);
   const [editStem, setEditStem] = useState('');
   const [editExplanation, setEditExplanation] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/admin/queue')
+      .then((res) => res.json())
+      .then((d) => {
+        if (d.queue) setQuestions(d.queue);
+      })
+      .catch(() => {});
+  }, []);
 
   const handleToggleHide = async (q: QuestionReviewItem) => {
     const newHiddenState = !q.is_hidden;

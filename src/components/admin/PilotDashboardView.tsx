@@ -1,12 +1,23 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { PilotCohortMetrics } from '@/modules/admin/types';
 
 interface PilotDashboardViewProps {
   metrics: PilotCohortMetrics;
 }
 
-export function PilotDashboardView({ metrics }: PilotDashboardViewProps) {
+export function PilotDashboardView({ metrics: initialMetrics }: PilotDashboardViewProps) {
+  const [metrics, setMetrics] = useState<PilotCohortMetrics>(initialMetrics);
+
+  useEffect(() => {
+    fetch('/api/admin/pilot-stats')
+      .then((res) => res.json())
+      .then((d) => {
+        if (d.metrics) setMetrics(d.metrics);
+      })
+      .catch(() => {});
+  }, []);
   return (
     <div className="space-y-8">
       {/* High-level stats */}

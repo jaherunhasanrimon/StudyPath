@@ -1,19 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CreatorOptOut } from '@/modules/admin/types';
 
 interface OptOutManagerProps {
-  initialOptOuts: CreatorOptOut[];
+  initialOptOuts?: CreatorOptOut[];
 }
 
-export function OptOutManager({ initialOptOuts }: OptOutManagerProps) {
+export function OptOutManager({ initialOptOuts = [] }: OptOutManagerProps) {
   const [optOuts, setOptOuts] = useState<CreatorOptOut[]>(initialOptOuts);
   const [channelId, setChannelId] = useState('');
   const [channelTitle, setChannelTitle] = useState('');
   const [reason, setReason] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
+
+  useEffect(() => {
+    fetch('/api/admin/opt-outs')
+      .then((res) => res.json())
+      .then((d) => {
+        if (d.optOuts) setOptOuts(d.optOuts);
+      })
+      .catch(() => {});
+  }, []);
 
   const handleAddOptOut = async (e: React.FormEvent) => {
     e.preventDefault();
