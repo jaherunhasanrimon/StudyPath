@@ -21,7 +21,7 @@ If two files disagree, or something is unclear, **ask the founder**. Do not gues
 
 ## 3. Current phase
 
-**Current phase: 5 (Reminders and dashboard).**
+**Current phase: 6 (Hardening and compliance).**
 
 The founder updates this line when a phase is approved as done. Work only on the current phase. Never start the next phase on your own.
 
